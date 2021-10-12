@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,gBAAgB,CAAC;EACf,QAAQ,EAAE,QAAQ;EAElB,QAAQ,EAAE,MAAM;EAChB,IAAI,EAAE,aAAa;EAEnB,KAAK,EAAE,GAAG;EACV,MAAM,EAAE,GAAG;EACX,MAAM,EAAE,IAAI;EACZ,OAAO,EAAE,CAAC;EAEV,WAAW,EAAE,MAAM;EAEnB,MAAM,EAAE,CAAC;EAET,SAAS,EAAE,WAAW;CACvB",
+    "sources": [
+        "visually-hidden.scss"
+    ],
+    "names": [],
+    "file": "visually-hidden.css"
+}

@@ -1,0 +1,12 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "mixins.scss",
+        "m_center.scss",
+        "m_media.scss",
+        "m_clear-list.scss"
+    ],
+    "names": [],
+    "file": "mixins.css"
+}

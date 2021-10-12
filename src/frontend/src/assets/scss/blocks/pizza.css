@@ -1,0 +1,114 @@
+.pizza {
+  position: relative;
+  display: block;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100%;
+}
+
+.pizza--foundation--big-creamy {
+  background-image: url("~@/assets/img/foundation/big-creamy.svg");
+}
+
+.pizza--foundation--big-tomato {
+  background-image: url("~@/assets/img/foundation/big-tomato.svg");
+}
+
+.pizza--foundation--small-creamy {
+  background-image: url("~@/assets/img/foundation/small-creamy.svg");
+}
+
+.pizza--foundation--small-tomato {
+  background-image: url("~@/assets/img/foundation/small-tomato.svg");
+}
+
+.pizza__wrapper {
+  width: 100%;
+  padding-bottom: 100%;
+}
+
+.pizza__filling {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100%;
+}
+
+.pizza__filling--second {
+  -webkit-transform: rotate(45deg);
+          transform: rotate(45deg);
+}
+
+.pizza__filling--third {
+  -webkit-transform: rotate(-45deg);
+          transform: rotate(-45deg);
+}
+
+.pizza__filling--ananas {
+  background-image: url("~@/assets/img/filling-big/ananas.svg");
+}
+
+.pizza__filling--bacon {
+  background-image: url("~@/assets/img/filling-big/bacon.svg");
+}
+
+.pizza__filling--blue_cheese {
+  background-image: url("~@/assets/img/filling-big/blue_cheese.svg");
+}
+
+.pizza__filling--cheddar {
+  background-image: url("~@/assets/img/filling-big/cheddar.svg");
+}
+
+.pizza__filling--chile {
+  background-image: url("~@/assets/img/filling-big/chile.svg");
+}
+
+.pizza__filling--ham {
+  background-image: url("~@/assets/img/filling-big/ham.svg");
+}
+
+.pizza__filling--jalapeno {
+  background-image: url("~@/assets/img/filling-big/jalapeno.svg");
+}
+
+.pizza__filling--mozzarella {
+  background-image: url("~@/assets/img/filling-big/mozzarella.svg");
+}
+
+.pizza__filling--mushrooms {
+  background-image: url("~@/assets/img/filling-big/mushrooms.svg");
+}
+
+.pizza__filling--olives {
+  background-image: url("~@/assets/img/filling-big/olives.svg");
+}
+
+.pizza__filling--onion {
+  background-image: url("~@/assets/img/filling-big/onion.svg");
+}
+
+.pizza__filling--parmesan {
+  background-image: url("~@/assets/img/filling-big/parmesan.svg");
+}
+
+.pizza__filling--salami {
+  background-image: url("~@/assets/img/filling-big/salami.svg");
+}
+
+.pizza__filling--salmon {
+  background-image: url("~@/assets/img/filling-big/salmon.svg");
+}
+
+.pizza__filling--tomatoes {
+  background-image: url("~@/assets/img/filling-big/tomatoes.svg");
+}
+/*# sourceMappingURL=pizza.css.map */
