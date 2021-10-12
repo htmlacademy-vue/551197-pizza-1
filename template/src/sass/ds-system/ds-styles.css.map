@@ -1,0 +1,12 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "ds-styles.scss",
+        "ds-colors.scss",
+        "ds-shadows.scss",
+        "ds-typography.scss"
+    ],
+    "names": [],
+    "file": "ds-styles.css"
+}
