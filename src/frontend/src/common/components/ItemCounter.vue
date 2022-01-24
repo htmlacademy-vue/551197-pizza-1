@@ -18,7 +18,13 @@
       <span class="visually-hidden">Меньше</span>
     </button> -->
 
-    <input type="text" name="counter" class="counter__input" :value="value" />
+    <input
+      type="text"
+      name="counter"
+      class="counter__input"
+      :value="value"
+      :disabled="value <= 0"
+    />
     <button
       type="button"
       class="counter__button counter__button--plus"
@@ -63,12 +69,24 @@ export default {
   },
 
   methods: {
+    // changeCount(count) {
+    //   console.log(count);
+    //   // this.$emit("itemCount", count);
+    // },
     add() {
       this.value++;
+
+      this.item.count = this.value;
+      // console.log(this.item.name, this.item.count);
+      this.$emit("itemCount", this.item.name, this.item.count);
     },
     reduce() {
       if (this.value > 0) {
         this.value--;
+
+        this.item.count = this.value;
+        // console.log(this.item.name, this.item.count);
+        this.$emit("itemCount", this.item.name, this.item.count);
       }
     },
   },

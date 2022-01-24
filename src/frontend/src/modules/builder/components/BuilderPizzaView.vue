@@ -9,25 +9,63 @@
       />
     </label>
 
-    <div class="content__constructor">
-      <div class="pizza pizza--foundation--big-tomato">
+    <div
+      @drop="onDrop"
+      @dragover.prevent
+      @dragenter.prevent
+      class="content__constructor"
+    >
+      <div
+        class="pizza"
+        :class="`pizza--foundation--${pizzaSettings.size}-${pizzaSettings.sauce}`"
+      >
         <div class="pizza__wrapper">
-          <div class="pizza__filling pizza__filling--ananas"></div>
-          <div class="pizza__filling pizza__filling--bacon"></div>
-          <div class="pizza__filling pizza__filling--cheddar"></div>
+          <div
+            v-for="el in drops"
+            :key="el.id"
+            :class="['pizza__filling', `pizza__filling--${el}`]"
+          />
         </div>
       </div>
     </div>
-
     <BuilderPriceCounter />
   </div>
 </template>
 
 <script>
-import BuilderPriceCounter from "./BuilderPriceCounter";
+import BuilderPriceCounter from "./BuilderPriceCounter.vue";
+
 export default {
+  name: "BuilderPizzaView",
   components: {
     BuilderPriceCounter,
   },
+  props: {
+    pizzaSettings: {
+      type: Object,
+      required: true,
+    },
+    ingredients: {
+      type: Object,
+      required: true,
+    },
+  },
+
+  data() {
+    return {
+      pizzaName: "",
+      drops: [],
+    };
+  },
+  methods: {
+    onDrop(evt) {
+      const draggedElement = evt.dataTransfer.getData("item");
+      this.drops.push(draggedElement);
+
+      console.log(this.drops);
+    },
+  },
 };
 </script>
+
+<style lang="scss" scoped></style>

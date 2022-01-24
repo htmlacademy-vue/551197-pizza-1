@@ -30,20 +30,17 @@
               v-for="item in ingredientsItems"
               :key="item.id"
             >
-              <AppDrag :transferData="item">
-                <span
-                  class="filling"
-                  :class="
-                    'filling--' +
-                    item.image
-                      .replace('.svg', '')
-                      .replace('/public/img/filling/', '')
-                  "
-                >
-                  {{ item.name }}</span
-                >
-                <ItemCounter :item="item" />
-              </AppDrag>
+              <SelectorItem
+                :classItem="item.label"
+                :name="item.name"
+                draggable
+                @dragstart.native="startDrag($event, item.label)"
+              />
+
+              <ItemCounter
+                @itemCount="itemCount(item.label, item.count)"
+                :item="item"
+              />
             </li>
           </ul>
         </div>
@@ -54,12 +51,12 @@
 
 <script>
 import ItemCounter from "../../../common/components/ItemCounter";
-import AppDrag from "../../../layouts/AppDrag";
+import SelectorItem from "../../../common/components/SelectorItem";
 export default {
   name: "BuulderIngredientSelector",
   components: {
     ItemCounter,
-    AppDrag,
+    SelectorItem,
   },
   props: {
     sauces: {
@@ -70,11 +67,39 @@ export default {
       type: Array,
     },
   },
-
+  data() {
+    return {
+      result: [],
+    };
+  },
   methods: {
+    itemCount(name, count) {
+      var countItem = { name, count };
+      console.log(countItem);
+      this.$emit("changeCount", countItem);
+      // console.log(countItem);
+      // this.addIngredient(countItem);
+      // console.log(count);
+    },
+    addIngredient() {
+      // this.result.push(...countItem);
+
+      // var arrayIngredients = [];
+      // arrayIngredients.push(countItem);
+      // this.result.push({ ...countItem });
+
+      this.$emit("changeCount", this.result);
+    },
+
     changeSauce(sauce) {
       console.log(sauce.name);
       this.$emit("changeSauce", sauce);
+    },
+
+    startDrag(evt, item) {
+      evt.dataTransfer.dropEffect = "move";
+      evt.dataTransfer.effectAllowed = "move";
+      evt.dataTransfer.setData("item", item);
     },
   },
 };

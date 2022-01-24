@@ -3,7 +3,7 @@
     <div class="sheet">
       <h2 class="title title--small sheet__title">Выберите тесто</h2>
 
-      <div class="sheet__content dough">
+      <!-- <div class="sheet__content dough">
         <label
           v-for="item in dough"
           class="dough__input"
@@ -17,6 +17,22 @@
           <b>{{ item.name }}</b>
           <span>{{ item.description }}</span>
         </label>
+      </div> -->
+
+      <div class="sheet__content dough">
+        <RadioButton
+          v-for="item in dough"
+          :item="item"
+          :key="item.id"
+          :itemName="item.name"
+          :checked="true"
+          :itemDescription="item.description"
+          name="dough"
+          class="dough__input"
+          :classInput="getDoughPizza(item.name)"
+          @changeItem="changeDough"
+        >
+        </RadioButton>
       </div>
     </div>
   </div>
@@ -26,14 +42,14 @@
 import RadioButton from "/frontend/src/common/components/RadioButton";
 
 export default {
+  name: "BuilderDoughtSelector",
+  components: {
+    RadioButton,
+  },
   props: {
     dough: {
       type: Array,
     },
-  },
-  name: "BuilderDoughtSelector",
-  components: {
-    RadioButton,
   },
   methods: {
     getDoughPizza(name) {
@@ -47,12 +63,10 @@ export default {
       }
     },
     changeDough(dough) {
-      console.log(dough.name);
+      console.log("changeDough");
+      // console.log(dough);
+      //------отправляем в Index.vue
       this.$emit("changeDough", dough);
-    },
-
-    click() {
-      console.log("мяу");
     },
   },
 };
