@@ -9,15 +9,6 @@
       <span class="visually-hidden">Меньше</span>
     </button>
 
-    <!-- <button
-      v-if="value == 0"
-      type="button"
-      class="counter__button counter__button--minus"
-      disabled
-    >
-      <span class="visually-hidden">Меньше</span>
-    </button> -->
-
     <input
       type="text"
       name="counter"
@@ -69,23 +60,15 @@ export default {
   },
 
   methods: {
-    // changeCount(count) {
-    //   console.log(count);
-    //   // this.$emit("itemCount", count);
-    // },
     add() {
       this.value++;
-
       this.item.count = this.value;
-      // console.log(this.item.name, this.item.count);
       this.$emit("itemCount", this.item.name, this.item.count);
     },
     reduce() {
       if (this.value > 0) {
         this.value--;
-
         this.item.count = this.value;
-        // console.log(this.item.name, this.item.count);
         this.$emit("itemCount", this.item.name, this.item.count);
       }
     },

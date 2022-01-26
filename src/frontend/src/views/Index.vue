@@ -20,7 +20,9 @@
 
           <BuilderPizzaView
             :pizzaSettings="pizzaSettings"
-            :ingredients="checkedIngredients"
+            :checkedIngredients="checkedIngredients"
+            :prices="prices"
+            @dropIngredients="dropIngredients"
           />
         </div>
       </form>
@@ -57,33 +59,102 @@ export default {
       user: user,
       sizePizza: "",
 
-      checkedIngredients: {},
-      pizzaSettings: {},
+      pizzaSettings: {
+        dough: "big",
+        sauce: "creamy",
+        size: "43 см",
+        sizeMultiplier: 3,
+        doughPrice: 300,
+        saucePrice: 50,
+      },
+
+      checkedIngredients: {
+        mushrooms: 0,
+        cheddar: 0,
+        salami: 0,
+        ham: 0,
+        ananas: 0,
+        bacon: 0,
+        onion: 0,
+        chile: 0,
+        jalapeno: 0,
+        olives: 0,
+        tomatoes: 0,
+        salmon: 0,
+        mozzarella: 0,
+        parmesan: 0,
+        blue_cheese: 0,
+      },
+
+      prices: [],
+
+      dropsVuewIngredients: {},
+      viewIngredients: {},
     };
   },
-
+  created() {
+    var prePrices = {};
+    for (let i = 0; i < pizza.ingredients.length; i++) {
+      prePrices = {
+        name: pizza.ingredients[i].label,
+        price: pizza.ingredients[i].price,
+      };
+      this.prices.push(prePrices);
+    }
+    // console.log(this.prices);
+  },
   methods: {
-    changeCount(count) {
-      // console.log(count);
-      this.checkedIngredients.count = count;
+    dropIngredients(drops) {
+      console.log(drops);
+
+      for (let i = 0; i < drops.length; i++) {
+        let name = drops[i].name;
+        let count = drops[i].count;
+
+        this.dropsVuewIngredients = {
+          ...this.checkedIngredients,
+          [name]: count,
+        };
+      }
+      console.log(this.test1);
+      this.sumTest();
+    },
+    changeCount(item) {
+      let itemName = item.name;
+      let itemCount = item.count;
+
+      this.viewIngredients = {
+        ...this.checkedIngredients,
+        [itemName]: itemCount,
+      };
+      // console.log(this.viewIngredients );
+      this.sumTest();
+    },
+    sumTest() {
+      var a = this.dropsVuewIngredients;
+      var b = this.viewIngredients;
+      var c = {},
+        key;
+      for (key in a) {
+        if (Object.prototype.hasOwnProperty.call(a, key)) {
+          c[key] = key in b ? b[key] + a[key] : a[key];
+        }
+      }
+      this.checkedIngredients = c;
+      console.log(this.checkedIngredients);
     },
     changeDough(dough) {
       if (dough.name == "Тонкое") {
-        dough.label = "light";
+        dough.label = "small";
       } else if (dough.name == "Толстое") {
-        dough.label = "large";
+        dough.label = "big";
       }
       this.pizzaSettings.dough = dough.label;
+      this.pizzaSettings.doughPrice = dough.price;
     },
     changeSize(size) {
-      if (size.name == "23 см") {
-        size.label = "small";
-      } else if (size.name == "32 см") {
-        size.label = "middle";
-      } else if (size.name == "45 см") {
-        size.label = "big";
-      }
-      this.pizzaSettings.size = size.label;
+      this.pizzaSettings.size = size.name;
+      this.pizzaSettings.sizeMultiplier = size.multiplier;
     },
     changeSauce(sauce) {
       if (sauce.name == "Томатный") {
@@ -92,6 +163,7 @@ export default {
         sauce.label = "creamy";
       }
       this.pizzaSettings.sauce = sauce.label;
+      this.pizzaSettings.saucePrice = sauce.price;
     },
 
     addLabelIngredients(ingredients) {

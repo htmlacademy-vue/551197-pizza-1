@@ -77,18 +77,6 @@ export default {
       var countItem = { name, count };
       console.log(countItem);
       this.$emit("changeCount", countItem);
-      // console.log(countItem);
-      // this.addIngredient(countItem);
-      // console.log(count);
-    },
-    addIngredient() {
-      // this.result.push(...countItem);
-
-      // var arrayIngredients = [];
-      // arrayIngredients.push(countItem);
-      // this.result.push({ ...countItem });
-
-      this.$emit("changeCount", this.result);
     },
 
     changeSauce(sauce) {
