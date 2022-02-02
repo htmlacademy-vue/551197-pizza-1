@@ -62,9 +62,11 @@ export default {
     sauces: {
       type: Array,
     },
-
     ingredientsItems: {
       type: Array,
+    },
+    currentSauce: {
+      type: Object,
     },
   },
   data() {
@@ -75,12 +77,10 @@ export default {
   methods: {
     itemCount(name, count) {
       var countItem = { name, count };
-      console.log(countItem);
       this.$emit("changeCount", countItem);
     },
 
     changeSauce(sauce) {
-      console.log(sauce.name);
       this.$emit("changeSauce", sauce);
     },
 

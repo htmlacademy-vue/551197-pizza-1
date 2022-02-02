@@ -3,27 +3,6 @@
     <div class="sheet">
       <h2 class="title title--small sheet__title">Выберите размер</h2>
 
-      <!-- <div class="sheet__content diameter">
-        <label
-          v-for="size in sizes"
-          :key="size.id"
-          class="diameter__input"
-          :class="getSizePizza(size.multiplier)"
-          @click="changeSize(size)"
-        >
-          <RadioButton name="diameter" :value="size.name">
-            <input
-              type="radio"
-              name="diameter"
-              class="visually-hidden"
-              :value="size.value"
-              checked
-            />
-          </RadioButton>
-          <span>{{ size.name }}</span>
-        </label>
-      </div> -->
-
       <div class="sheet__content diameter">
         <RadioButton
           v-for="size in sizes"
@@ -60,9 +39,6 @@ export default {
 
   methods: {
     changeSize(size) {
-      console.log("changeSize");
-      // console.log(size);
-      //-----отправляем в Index.vue
       this.$emit("changeSize", size);
     },
     getSizePizza(multiplier) {

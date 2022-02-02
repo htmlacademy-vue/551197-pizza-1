@@ -10,11 +10,15 @@ export default {
   name: "BuilderPriceCounter",
 
   props: {
-    checkedIngredients: {
+    currentDough: {
       type: Object,
       required: true,
     },
-    pizzaSettings: {
+    currentSauce: {
+      type: Object,
+      required: true,
+    },
+    currentSize: {
       type: Object,
       required: true,
     },
@@ -22,44 +26,35 @@ export default {
       type: Array,
       required: true,
     },
+    ingredientsItems: {
+      type: Array,
+      required: true,
+    },
   },
   data() {
     return {
-      totalPrice: 0,
       ingredientsPrice: 0,
     };
   },
-  created() {},
   methods: {
     calcIngredientsPrice() {
-      const result = Object.entries(this.checkedIngredients).map((entry) => ({
-        name: entry[0],
-        count: entry[1],
-      }));
-
-      for (let i = 0; i < this.prices.length; i++) {
-        result[i].price = this.prices[i].price;
+      var result = 0;
+      for (let i = 0; i < this.ingredientsItems.length; i++) {
+        result =
+          result +
+          this.ingredientsItems[i].count * this.ingredientsItems[i].price;
       }
-
-      var test = 0;
-
-      for (let i = 0; i < result.length; i++) {
-        test = test + result[i].count * result[i].price;
-      }
-
-      this.ingredientsPrice = test;
-
-      console.log(this.ingredientsPrice);
+      this.ingredientsPrice = result;
     },
   },
   computed: {
     price: function () {
       this.calcIngredientsPrice();
       return (
-        (this.pizzaSettings.doughPrice +
-          this.pizzaSettings.saucePrice +
+        (this.currentDough.price +
+          this.currentSauce.price +
           this.ingredientsPrice) *
-        this.pizzaSettings.sizeMultiplier
+        this.currentSize.multiplier
       );
     },
   },

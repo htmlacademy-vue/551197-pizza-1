@@ -7,20 +7,31 @@
         <div class="content__wrapper">
           <h1 class="title title--big">Конструктор пиццы</h1>
 
-          <BuilderDoughSelector @changeDough="changeDough" :dough="dough" />
+          <BuilderDoughSelector
+            :dough="dough"
+            :currentDough="currentDough"
+            @changeDough="changeDough"
+          />
 
-          <BuilderSizeSelector @changeSize="changeSize" :sizes="sizes" />
+          <BuilderSizeSelector
+            :sizes="sizes"
+            :currentSize="currentSize"
+            @changeSize="changeSize"
+          />
 
           <BuilderIngredientsSelector
+            :sauces="sauces"
+            :currentSauce="currentSauce"
+            :ingredientsItems="ingredientsItems"
             @changeCount="changeCount"
             @changeSauce="changeSauce"
-            :sauces="sauces"
-            :ingredientsItems="ingredientsItems"
           />
 
           <BuilderPizzaView
-            :pizzaSettings="pizzaSettings"
-            :checkedIngredients="checkedIngredients"
+            :currentDough="currentDough"
+            :currentSauce="currentSauce"
+            :currentSize="currentSize"
+            :ingredientsItems="ingredientsItems"
             :prices="prices"
             @dropIngredients="dropIngredients"
           />
@@ -52,44 +63,18 @@ export default {
   data() {
     return {
       misc: misc,
+      user: user,
+
       ingredientsItems: this.addLabelIngredients(pizza.ingredients),
       dough: pizza.dough,
       sauces: pizza.sauces,
       sizes: pizza.sizes,
-      user: user,
-      sizePizza: "",
 
-      pizzaSettings: {
-        dough: "big",
-        sauce: "creamy",
-        size: "43 см",
-        sizeMultiplier: 3,
-        doughPrice: 300,
-        saucePrice: 50,
-      },
-
-      checkedIngredients: {
-        mushrooms: 0,
-        cheddar: 0,
-        salami: 0,
-        ham: 0,
-        ananas: 0,
-        bacon: 0,
-        onion: 0,
-        chile: 0,
-        jalapeno: 0,
-        olives: 0,
-        tomatoes: 0,
-        salmon: 0,
-        mozzarella: 0,
-        parmesan: 0,
-        blue_cheese: 0,
-      },
+      currentDough: pizza.dough[1],
+      currentSauce: pizza.sauces[1],
+      currentSize: pizza.sizes[2],
 
       prices: [],
-
-      dropsVuewIngredients: {},
-      viewIngredients: {},
     };
   },
   created() {
@@ -101,47 +86,35 @@ export default {
       };
       this.prices.push(prePrices);
     }
-    // console.log(this.prices);
+    console.log(this.prices);
+
+    for (let i = 0; i < this.ingredientsItems.length; i++) {
+      this.$set(this.ingredientsItems[i], "count", 0);
+    }
+    if (this.currentDough.name == "Тонкое") {
+      this.currentDough = { ...this.currentDough, label: "small" };
+    } else if (this.currentDough.name == "Толстое") {
+      this.currentDough = { ...this.currentDough, label: "big" };
+    }
+    if (this.currentSauce.name == "Томатный") {
+      this.currentSauce = { ...this.currentSauce, label: "tomato" };
+    } else if (this.currentSauce.name == "Сливочный") {
+      this.currentSauce = { ...this.currentSauce, label: "creamy" };
+    }
   },
   methods: {
-    dropIngredients(drops) {
-      console.log(drops);
-
-      for (let i = 0; i < drops.length; i++) {
-        let name = drops[i].name;
-        let count = drops[i].count;
-
-        this.dropsVuewIngredients = {
-          ...this.checkedIngredients,
-          [name]: count,
-        };
-      }
-      console.log(this.test1);
-      this.sumTest();
+    dropIngredients(drop) {
+      this.ingredientsItems.forEach((el) => {
+        if (el.label == drop) {
+          el.count++;
+        }
+      });
     },
     changeCount(item) {
-      let itemName = item.name;
-      let itemCount = item.count;
-
-      this.viewIngredients = {
-        ...this.checkedIngredients,
-        [itemName]: itemCount,
-      };
-      // console.log(this.viewIngredients );
-      this.sumTest();
+      console.log(item);
     },
-    sumTest() {
-      var a = this.dropsVuewIngredients;
-      var b = this.viewIngredients;
-      var c = {},
-        key;
-      for (key in a) {
-        if (Object.prototype.hasOwnProperty.call(a, key)) {
-          c[key] = key in b ? b[key] + a[key] : a[key];
-        }
-      }
-      this.checkedIngredients = c;
-      console.log(this.checkedIngredients);
+    changeSize(size) {
+      this.currentSize = size;
     },
     changeDough(dough) {
       if (dough.name == "Тонкое") {
@@ -149,12 +122,7 @@ export default {
       } else if (dough.name == "Толстое") {
         dough.label = "big";
       }
-      this.pizzaSettings.dough = dough.label;
-      this.pizzaSettings.doughPrice = dough.price;
-    },
-    changeSize(size) {
-      this.pizzaSettings.size = size.name;
-      this.pizzaSettings.sizeMultiplier = size.multiplier;
+      this.currentDough.label = dough.label;
     },
     changeSauce(sauce) {
       if (sauce.name == "Томатный") {
@@ -162,10 +130,8 @@ export default {
       } else if (sauce.name == "Сливочный") {
         sauce.label = "creamy";
       }
-      this.pizzaSettings.sauce = sauce.label;
-      this.pizzaSettings.saucePrice = sauce.price;
+      this.currentSauce.label = sauce.label;
     },
-
     addLabelIngredients(ingredients) {
       ingredients.forEach((el) => {
         el.label = el.image

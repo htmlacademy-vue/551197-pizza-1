@@ -12,8 +12,6 @@ export default {
   },
   created() {
     this.class = "filling--" + this.classItem;
-
-    // console.log(this.class);
   },
   props: {
     name: {

@@ -39,15 +39,13 @@ export default {
     array: {
       type: Array,
     },
-
     checked: {
       type: Boolean,
-      default: false,
+      default: true,
     },
   },
   methods: {
     testRadio(item) {
-      // console.log(item);
       this.$emit("changeItem", item);
     },
   },

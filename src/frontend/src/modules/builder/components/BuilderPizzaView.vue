@@ -17,11 +17,11 @@
     >
       <div
         class="pizza"
-        :class="`pizza--foundation--${pizzaSettings.dough}-${pizzaSettings.sauce}`"
+        :class="`pizza--foundation--${currentDough.label}-${currentSauce.label}`"
       >
         <div class="pizza__wrapper">
           <div
-            v-for="el in viewIngredients()"
+            v-for="el in viewIngredients"
             :key="el.id"
             :class="['pizza__filling', `pizza__filling--${el}`]"
           />
@@ -29,8 +29,10 @@
       </div>
     </div>
     <BuilderPriceCounter
-      :checkedIngredients="checkedIngredients"
-      :pizzaSettings="pizzaSettings"
+      :currentDough="currentDough"
+      :ingredientsItems="ingredientsItems"
+      :currentSauce="currentSauce"
+      :currentSize="currentSize"
       :prices="prices"
     />
   </div>
@@ -45,17 +47,23 @@ export default {
     BuilderPriceCounter,
   },
   props: {
-    pizzaSettings: {
+    currentDough: {
       type: Object,
       required: true,
     },
-    checkedIngredients: {
+    currentSauce: {
+      type: Object,
+      required: true,
+    },
+    currentSize: {
       type: Object,
       required: true,
     },
     prices: {
       type: Array,
-      required: true,
+    },
+    ingredientsItems: {
+      type: Array,
     },
   },
 
@@ -65,69 +73,23 @@ export default {
       drops: [],
     };
   },
-  mounted() {
-    console.log(this.checkedIngredients);
-  },
-  computed: {},
-  methods: {
-    viewIngredients() {
-      var viewItems = Object.entries(this.checkedIngredients).map((entry) => ({
-        name: entry[0],
-        count: entry[1],
-      }));
+
+  computed: {
+    viewIngredients: function () {
+      console.log(this.ingredientsItems);
+
       var nameIngredients = [];
-      viewItems.forEach((item) => {
+      this.ingredientsItems.forEach((item) => {
         if (item.count > 0) {
-          nameIngredients.push(item.name);
+          nameIngredients.push(item.label);
         }
       });
-      nameIngredients.push(this.drops);
       return nameIngredients;
     },
-
-    count(drops) {
-      var dropsCount = {};
-      drops.forEach((item) => {
-        dropsCount[item] = (dropsCount[item] || 0) + 1;
-      });
-
-      console.log(dropsCount);
-
-      dropsCount = Object.entries(dropsCount).map((entry) => ({
-        name: entry[0],
-        count: entry[1],
-      }));
-      console.log(dropsCount);
-
-      this.$emit("dropIngredients", dropsCount);
-    },
+  },
+  methods: {
     onDrop(evt) {
-      const draggedElement = evt.dataTransfer.getData("item");
-
-      this.drops.push(draggedElement);
-
-      console.log(this.checkedIngredients);
-
-      this.count(this.drops);
-      //-----
-      // var test = Object.entries(this.checkedIngredients).map((entry) => ({
-      //   name: entry[0],
-      //   count: entry[1],
-      // }));
-      // var nameIngredients = [];
-      // test.forEach((item) => {
-      //   if (item.count > 0) {
-      //     nameIngredients.push(item.name);
-      //   }
-      // });
-
-      // console.log(nameIngredients);
-
-      // this.drops.push(...nameIngredients);
-
-      //----
-
-      console.log(this.drops);
+      this.$emit("dropIngredients", evt.dataTransfer.getData("item"));
     },
   },
 };
