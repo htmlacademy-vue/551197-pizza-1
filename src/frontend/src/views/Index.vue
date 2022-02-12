@@ -1,7 +1,5 @@
 <template>
   <div class="app">
-    <app-layout></app-layout>
-
     <main class="content">
       <form action="#" method="post">
         <div class="content__wrapper">
@@ -32,7 +30,6 @@
             :currentSauce="currentSauce"
             :currentSize="currentSize"
             :ingredientsItems="ingredientsItems"
-            :prices="prices"
             @dropIngredients="dropIngredients"
           />
         </div>
@@ -42,15 +39,13 @@
 </template>
 
 <script>
-import BuilderDoughSelector from "./modules/builder/components/BuilderDoughSelector";
-import BuilderSizeSelector from "./modules/builder/components/BuilderSizeSelector";
-import BuilderIngredientsSelector from "./modules/builder/components/BuilderIngredientsSelector";
-import BuilderPizzaView from "./modules/builder/components/BuilderPizzaView";
-import misc from "./static/misc.json";
-import pizza from "./static/pizza.json";
-import user from "./static/user.json";
-
-import AppLayout from "/src/layouts/AppLayout";
+import BuilderDoughSelector from "@/modules/builder/components/BuilderDoughSelector.vue";
+import BuilderSizeSelector from "@/modules/builder/components/BuilderSizeSelector";
+import BuilderIngredientsSelector from "@/modules/builder/components/BuilderIngredientsSelector";
+import BuilderPizzaView from "@/modules/builder/components/BuilderPizzaView";
+import misc from "@/static/misc.json";
+import pizza from "@/static/pizza.json";
+import user from "@/static/user.json";
 
 export default {
   components: {
@@ -58,7 +53,6 @@ export default {
     BuilderSizeSelector,
     BuilderIngredientsSelector,
     BuilderPizzaView,
-    AppLayout,
   },
   data() {
     return {
@@ -66,47 +60,22 @@ export default {
       user: user,
 
       ingredientsItems: this.addLabelIngredients(pizza.ingredients),
-      dough: pizza.dough,
-      sauces: pizza.sauces,
+      dough: this.addLabelDough(pizza.dough),
+      sauces: this.addLabelSauce(pizza.sauces),
       sizes: pizza.sizes,
 
-      currentDough: pizza.dough[1],
-      currentSauce: pizza.sauces[1],
-      currentSize: pizza.sizes[2],
-
-      prices: [],
+      currentDough: pizza.dough[0],
+      currentSauce: pizza.sauces[0],
+      currentSize: pizza.sizes[0],
     };
-  },
-  created() {
-    var prePrices = {};
-    for (let i = 0; i < pizza.ingredients.length; i++) {
-      prePrices = {
-        name: pizza.ingredients[i].label,
-        price: pizza.ingredients[i].price,
-      };
-      this.prices.push(prePrices);
-    }
-    console.log(this.prices);
-
-    for (let i = 0; i < this.ingredientsItems.length; i++) {
-      this.$set(this.ingredientsItems[i], "count", 0);
-    }
-    if (this.currentDough.name == "Тонкое") {
-      this.currentDough = { ...this.currentDough, label: "small" };
-    } else if (this.currentDough.name == "Толстое") {
-      this.currentDough = { ...this.currentDough, label: "big" };
-    }
-    if (this.currentSauce.name == "Томатный") {
-      this.currentSauce = { ...this.currentSauce, label: "tomato" };
-    } else if (this.currentSauce.name == "Сливочный") {
-      this.currentSauce = { ...this.currentSauce, label: "creamy" };
-    }
   },
   methods: {
     dropIngredients(drop) {
       this.ingredientsItems.forEach((el) => {
         if (el.label == drop) {
-          el.count++;
+          if (el.count < 3) {
+            el.count++;
+          }
         }
       });
     },
@@ -117,29 +86,12 @@ export default {
       this.currentSize = size;
     },
     changeDough(dough) {
-      if (dough.name == "Тонкое") {
-        dough.label = "small";
-      } else if (dough.name == "Толстое") {
-        dough.label = "big";
-      }
-      this.currentDough.label = dough.label;
+      this.currentDough = dough;
     },
     changeSauce(sauce) {
-      if (sauce.name == "Томатный") {
-        sauce.label = "tomato";
-      } else if (sauce.name == "Сливочный") {
-        sauce.label = "creamy";
-      }
-      this.currentSauce.label = sauce.label;
+      this.currentSauce = sauce;
     },
-    addLabelIngredients(ingredients) {
-      ingredients.forEach((el) => {
-        el.label = el.image
-          .replace(".svg", "")
-          .replace("/public/img/filling/", "");
-      });
-      return ingredients;
-    },
+
     getSizePizza(multiplier) {
       switch (multiplier) {
         case 1:
@@ -161,6 +113,37 @@ export default {
         default:
           alert("error get dough");
       }
+    },
+    addLabelIngredients(ingredients) {
+      ingredients.forEach((el) => {
+        el.count = 0;
+        el.label = el.image
+          .replace(".svg", "")
+          .replace("/public/img/filling/", "");
+      });
+      return ingredients;
+    },
+    addLabelDough(dough) {
+      dough.forEach((el) => {
+        if (el.name == "Толстое") {
+          this.$set(el, "label", "big");
+        }
+        if (el.name == "Тонкое") {
+          this.$set(el, "label", "small");
+        }
+      });
+      return dough;
+    },
+    addLabelSauce(sauces) {
+      sauces.forEach((el) => {
+        if (el.name == "Томатный") {
+          this.$set(el, "label", "tomato");
+        }
+        if (el.name == "Сливочный") {
+          this.$set(el, "label", "creamy");
+        }
+      });
+      return sauces;
     },
   },
 };

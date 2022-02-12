@@ -14,7 +14,7 @@
             <input
               type="radio"
               name="sauce"
-              checked
+              :checked="currentSauce.id === sauce.id"
               @change="changeSauce(sauce)"
             />
             <span>{{ sauce.name }}</span>
@@ -50,8 +50,8 @@
 </template>
 
 <script>
-import ItemCounter from "../../../common/components/ItemCounter";
-import SelectorItem from "../../../common/components/SelectorItem";
+import ItemCounter from "@/common/components/ItemCounter";
+import SelectorItem from "@/common/components/SelectorItem";
 export default {
   name: "BuulderIngredientSelector",
   components: {
@@ -68,11 +68,6 @@ export default {
     currentSauce: {
       type: Object,
     },
-  },
-  data() {
-    return {
-      result: [],
-    };
   },
   methods: {
     itemCount(name, count) {

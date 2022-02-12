@@ -9,7 +9,7 @@
           :item="item"
           :key="item.id"
           :itemName="item.name"
-          :checked="true"
+          :checked="currentDough.id === item.id"
           :itemDescription="item.description"
           name="dough"
           class="dough__input"
@@ -37,7 +37,6 @@ export default {
     },
     currentDough: {
       type: Object,
-      require: true,
     },
   },
   methods: {

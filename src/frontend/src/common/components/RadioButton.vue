@@ -6,7 +6,7 @@
       class="visually-hidden"
       :value="itemName"
       :checked="checked"
-      @click="testRadio(item)"
+      @click="radio(item)"
     />
 
     <b v-if="itemName && itemDescription">{{ itemName }}</b>
@@ -45,7 +45,7 @@ export default {
     },
   },
   methods: {
-    testRadio(item) {
+    radio(item) {
       this.$emit("changeItem", item);
     },
   },

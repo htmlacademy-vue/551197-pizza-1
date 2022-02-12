@@ -22,38 +22,22 @@ export default {
       type: Object,
       required: true,
     },
-    prices: {
-      type: Array,
-      required: true,
-    },
     ingredientsItems: {
       type: Array,
       required: true,
     },
   },
-  data() {
-    return {
-      ingredientsPrice: 0,
-    };
-  },
-  methods: {
-    calcIngredientsPrice() {
-      var result = 0;
-      for (let i = 0; i < this.ingredientsItems.length; i++) {
-        result =
-          result +
-          this.ingredientsItems[i].count * this.ingredientsItems[i].price;
-      }
-      this.ingredientsPrice = result;
-    },
-  },
+
   computed: {
     price: function () {
-      this.calcIngredientsPrice();
+      var ingredientsPrice = 0;
+      for (let i = 0; i < this.ingredientsItems.length; i++) {
+        ingredientsPrice =
+          ingredientsPrice +
+          this.ingredientsItems[i].count * this.ingredientsItems[i].price;
+      }
       return (
-        (this.currentDough.price +
-          this.currentSauce.price +
-          this.ingredientsPrice) *
+        (this.currentDough.price + this.currentSauce.price + ingredientsPrice) *
         this.currentSize.multiplier
       );
     },

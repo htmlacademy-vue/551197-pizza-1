@@ -33,7 +33,6 @@
       :ingredientsItems="ingredientsItems"
       :currentSauce="currentSauce"
       :currentSize="currentSize"
-      :prices="prices"
     />
   </div>
 </template>
@@ -59,9 +58,6 @@ export default {
       type: Object,
       required: true,
     },
-    prices: {
-      type: Array,
-    },
     ingredientsItems: {
       type: Array,
     },
@@ -76,8 +72,6 @@ export default {
 
   computed: {
     viewIngredients: function () {
-      console.log(this.ingredientsItems);
-
       var nameIngredients = [];
       this.ingredientsItems.forEach((item) => {
         if (item.count > 0) {

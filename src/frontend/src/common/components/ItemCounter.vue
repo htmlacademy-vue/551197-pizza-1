@@ -13,8 +13,8 @@
       type="text"
       name="counter"
       class="counter__input"
-      :value="value"
-      :disabled="value <= 0"
+      :value="this.item.count"
+      :disabled="this.item.count <= 0"
     />
     <button
       type="button"
@@ -37,22 +37,15 @@ export default {
       required: true,
     },
   },
-
-  data() {
-    return {
-      value: this.item.count,
-    };
-  },
-
   computed: {
     disabledReduce() {
-      if (this.value == 0) {
+      if (this.item.count == 0) {
         return true;
       }
       return false;
     },
     disabledAdd() {
-      if (this.value >= 3) {
+      if (this.item.count >= 3) {
         return true;
       }
       return false;
@@ -61,16 +54,10 @@ export default {
 
   methods: {
     add() {
-      this.value++;
-      this.item.count = this.value;
-      this.$emit("itemCount", this.item.name, this.item.count);
+      this.$emit("itemCount", this.item.name, this.item.count++);
     },
     reduce() {
-      if (this.value > 0) {
-        this.value--;
-        this.item.count = this.value;
-        this.$emit("itemCount", this.item.name, this.item.count);
-      }
+      this.$emit("itemCount", this.item.name, this.item.count--);
     },
   },
 };

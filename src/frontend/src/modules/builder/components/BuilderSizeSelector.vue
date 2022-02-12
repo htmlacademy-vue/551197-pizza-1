@@ -9,7 +9,7 @@
           :key="size.id"
           :item="size"
           :itemName="size.name"
-          :checked="true"
+          :checked="currentSize.id === size.id"
           name="diameter"
           class="diameter__input"
           :classInput="getSizePizza(size.multiplier)"
@@ -25,15 +25,13 @@
 import RadioButton from "/frontend/src/common/components/RadioButton";
 
 export default {
-  data() {
-    return {
-      checked: false,
-    };
-  },
   components: { RadioButton },
   props: {
     sizes: {
       type: Array,
+    },
+    currentSize: {
+      type: Object,
     },
   },
 
