@@ -36,11 +36,7 @@
                 :draggable="draggable(item)"
                 @dragstart.native="startDrag($event, item.label)"
               />
-
-              <ItemCounter
-                @itemCount="itemCount(item.label, item.count)"
-                :item="item"
-              />
+              <ItemCounter @itemCount="itemCount" :item="item" />
             </li>
           </ul>
         </div>
@@ -78,9 +74,8 @@ export default {
         return "draggable";
       } else return;
     },
-    itemCount(name, count) {
-      var countItem = { name, count };
-      this.$emit("changeCount", countItem);
+    itemCount(label, count) {
+      this.$emit("changeCount", label, count);
     },
 
     changeSauce(sauce) {

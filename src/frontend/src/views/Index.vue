@@ -77,8 +77,13 @@ export default {
         }
       });
     },
-    changeCount(item) {
-      console.log(item);
+    changeCount(label, count) {
+      this.ingredientsItems = this.ingredientsItems.map((item) => {
+        if (item.label === label) {
+          item.count = count;
+        }
+        return item;
+      });
     },
     changeSize(size) {
       this.currentSize = size;

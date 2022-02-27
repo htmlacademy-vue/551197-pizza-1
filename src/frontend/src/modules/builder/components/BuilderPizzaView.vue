@@ -20,11 +20,30 @@
         :class="`pizza--foundation--${currentDough.label}-${currentSauce.label}`"
       >
         <div class="pizza__wrapper">
-          <div
-            v-for="el in viewIngredients"
-            :key="el.id"
-            :class="['pizza__filling', `pizza__filling--${el}`]"
-          />
+          <template v-for="el in viewIngredients">
+            <div
+              :key="el.id"
+              :class="['pizza__filling', `pizza__filling--${el.label}`]"
+            />
+            <div
+              v-if="el.count > 1"
+              :key="el.id"
+              :class="[
+                'pizza__filling',
+                `pizza__filling--second`,
+                `pizza__filling--${el.label}`,
+              ]"
+            />
+            <div
+              v-if="el.count > 2"
+              :key="el.id"
+              :class="[
+                'pizza__filling',
+                `pizza__filling--third`,
+                `pizza__filling--${el.label}`,
+              ]"
+            />
+          </template>
         </div>
       </div>
     </div>
@@ -76,7 +95,7 @@ export default {
       var nameIngredients = [];
       this.ingredientsItems.forEach((item) => {
         if (item.count > 0) {
-          nameIngredients.push(item.label);
+          nameIngredients.push({ label: item.label, count: item.count });
         }
       });
       return nameIngredients;
