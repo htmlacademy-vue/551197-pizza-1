@@ -10,7 +10,7 @@ const imagemin = require('gulp-imagemin');
 const svgmin = require('gulp-svgmin');
 const svgstore = require('gulp-svgstore');
 
-const sass = require('gulp-sass');
+const sass = require('gulp-sass')(require('sass'));
 const postcss = require('gulp-postcss');
 const autoprefixer = require('autoprefixer');
 const objectFit = require('postcss-object-fit-images');
@@ -24,20 +24,20 @@ gulp.task('clean', function () {
 
 gulp.task('copy', function () {
   return gulp.src([
-    'src/fonts/**/*.{woff,woff2}',
-    'src/img/*.webp',
-    'src/js/*'
-  ], {
-    base: 'src'
-  })
+      'src/fonts/**/*.{woff,woff2}',
+      'src/img/*.webp',
+      'src/js/*'
+    ], {
+      base: 'src'
+    })
     .pipe(gulp.dest('build'));
 });
 
 gulp.task('images', function () {
   return gulp.src([
-    'src/img/**/*.{png,jpg,svg,webp}',
-    '!src/img/sprite/*.svg'
-  ])
+      'src/img/**/*.{png,jpg,svg,webp}',
+      '!src/img/sprite/*.svg'
+    ])
     .pipe(newer('build/img'))
     .pipe(imagemin([
       imagemin.optipng({
@@ -64,7 +64,9 @@ gulp.task('sprite', function () {
     }))
     .pipe(svgstore({
       inlineSvg: true,
-      removeAttrs: {attrs: '(stroke|fill)'}
+      removeAttrs: {
+        attrs: '(stroke|fill)'
+      }
     }))
     .pipe(rename('sprite.svg'))
     .pipe(gulp.dest('build/img'));
@@ -99,12 +101,12 @@ gulp.task('refresh', function (done) {
 });
 
 gulp.task('build', gulp.series(
-    'clean',
-    'copy',
-    'images',
-    'sprite',
-    'style',
-    'html'
+  'clean',
+  'copy',
+  'images',
+  'sprite',
+  'style',
+  'html'
 ));
 
 gulp.task('serve', function () {
