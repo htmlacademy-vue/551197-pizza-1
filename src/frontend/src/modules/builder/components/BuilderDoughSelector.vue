@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import RadioButton from "/frontend/src/common/components/RadioButton";
+import RadioButton from "@/common/components/RadioButton";
 
 export default {
   name: "BuilderDoughtSelector",
@@ -37,6 +37,7 @@ export default {
     },
     currentDough: {
       type: Object,
+      require: true,
     },
   },
   methods: {

@@ -60,6 +60,7 @@ export default {
     },
     ingredientsItems: {
       type: Array,
+      require: true,
     },
   },
 

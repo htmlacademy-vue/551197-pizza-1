@@ -32,12 +32,15 @@ export default {
     },
     item: {
       type: Object,
+      require: true,
     },
     classInput: {
       type: String,
+      require: true,
     },
     array: {
       type: Array,
+      require: true,
     },
     checked: {
       type: Boolean,

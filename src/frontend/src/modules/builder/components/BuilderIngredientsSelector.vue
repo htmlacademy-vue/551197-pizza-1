@@ -61,12 +61,15 @@ export default {
   props: {
     sauces: {
       type: Array,
+      require: true,
     },
     ingredientsItems: {
       type: Array,
+      require: true,
     },
     currentSauce: {
       type: Object,
+      require: true,
     },
   },
   methods: {

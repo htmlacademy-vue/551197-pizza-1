@@ -22,16 +22,18 @@
 </template>
 
 <script>
-import RadioButton from "/frontend/src/common/components/RadioButton";
+import RadioButton from "@/common/components/RadioButton";
 
 export default {
   components: { RadioButton },
   props: {
     sizes: {
       type: Array,
+      require: true,
     },
     currentSize: {
       type: Object,
+      require: true,
     },
   },
 
