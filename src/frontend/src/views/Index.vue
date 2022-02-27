@@ -73,9 +73,7 @@ export default {
     dropIngredients(drop) {
       this.ingredientsItems.forEach((el) => {
         if (el.label == drop) {
-          if (el.count < 3) {
-            el.count++;
-          }
+          el.count++;
         }
       });
     },

@@ -33,7 +33,7 @@
               <SelectorItem
                 :classItem="item.label"
                 :name="item.name"
-                draggable
+                :draggable="draggable(item)"
                 @dragstart.native="startDrag($event, item.label)"
               />
 
@@ -73,6 +73,11 @@ export default {
     },
   },
   methods: {
+    draggable(item) {
+      if (item.count < 3) {
+        return "draggable";
+      } else return;
+    },
     itemCount(name, count) {
       var countItem = { name, count };
       this.$emit("changeCount", countItem);
