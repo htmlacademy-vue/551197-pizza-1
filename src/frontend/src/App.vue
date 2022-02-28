@@ -1,17 +1,15 @@
 <template>
   <div class="app">
     <AppLayout />
-    <Index></Index>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import Index from "./views/Index.vue";
 import AppLayout from "./layouts/AppLayout.vue";
 
 export default {
   components: {
-    Index,
     AppLayout,
   },
 };
