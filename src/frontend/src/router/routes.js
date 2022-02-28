@@ -8,34 +8,34 @@ const routes = [
     path: "/",
     name: "Index",
     component: () => import("@/views/Index.vue"),
-    meta: { layout: "AppLayout" },
+    meta: { layout: "AppLayoutHeader" },
   },
 
   {
     path: "/login",
     name: "Login",
-    component: () => import("@/views/Index.vue"),
-    meta: { layout: "AppLayoutEmpty" },
+    component: () => import("@/views/Login.vue"),
+    meta: { layout: "AppLayoutDefault" },
   },
   {
     path: "/cart",
     name: "Cart",
     component: () => import("@/views/Cart.vue"),
-    meta: { layout: "AppLayout" },
+    meta: { layout: "AppLayoutHeader" },
   },
 
   {
     path: "/orders",
     name: "Orders",
     component: () => import("@/views/Orders.vue"),
-    meta: { layout: "AppLayout" },
+    meta: { layout: "AppLayoutSidebar" },
   },
 
   {
     path: "/profile",
     name: "Profile",
     component: () => import("@/views/Profile.vue"),
-    meta: { layout: "AppLayout" },
+    meta: { layout: "AppLayoutSidebar" },
   },
 ];
 
