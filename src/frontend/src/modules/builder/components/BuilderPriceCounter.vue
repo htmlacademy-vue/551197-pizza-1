@@ -6,22 +6,12 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   name: "BuilderPriceCounter",
 
   props: {
-    currentDough: {
-      type: Object,
-      required: true,
-    },
-    currentSauce: {
-      type: Object,
-      required: true,
-    },
-    currentSize: {
-      type: Object,
-      required: true,
-    },
     ingredientsItems: {
       type: Array,
       required: true,
@@ -29,6 +19,7 @@ export default {
   },
 
   computed: {
+    ...mapState("builder", ["currentSize", "currentSauce", "currentDough"]),
     price: function () {
       var ingredientsPrice = 0;
       for (let i = 0; i < this.ingredientsItems.length; i++) {
