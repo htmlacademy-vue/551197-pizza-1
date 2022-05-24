@@ -8,7 +8,7 @@
           <p>Основной соус:</p>
           <label
             class="radio ingredients__input"
-            v-for="sauce in sauces"
+            v-for="sauce in labeledlSauces"
             :key="sauce.id"
           >
             <input
@@ -48,6 +48,9 @@
 <script>
 import ItemCounter from "@/common/components/ItemCounter";
 import SelectorItem from "@/common/components/SelectorItem";
+
+import { mapGetters, mapMutations, mapState } from "vuex";
+
 export default {
   name: "BuulderIngredientSelector",
   components: {
@@ -55,20 +58,18 @@ export default {
     SelectorItem,
   },
   props: {
-    sauces: {
-      type: Array,
-      require: true,
-    },
     ingredientsItems: {
       type: Array,
       require: true,
     },
-    currentSauce: {
-      type: Object,
-      require: true,
-    },
+  },
+  computed: {
+    ...mapState("builder", ["currentSauce"]),
+    ...mapGetters("builder", ["labeledlSauces"]),
   },
   methods: {
+    ...mapMutations("builder", ["setCurrentSauce"]),
+
     draggable(item) {
       if (item.count < 3) {
         return "draggable";
@@ -79,7 +80,8 @@ export default {
     },
 
     changeSauce(sauce) {
-      this.$emit("changeSauce", sauce);
+      this.setCurrentSauce(sauce);
+      // this.$emit("changeSauce", sauce);
     },
 
     startDrag(evt, item) {

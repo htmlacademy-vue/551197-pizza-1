@@ -59,24 +59,14 @@
 <script>
 import BuilderPriceCounter from "./BuilderPriceCounter.vue";
 
+import { mapState } from "vuex";
+
 export default {
   name: "BuilderPizzaView",
   components: {
     BuilderPriceCounter,
   },
   props: {
-    currentDough: {
-      type: Object,
-      required: true,
-    },
-    currentSauce: {
-      type: Object,
-      required: true,
-    },
-    currentSize: {
-      type: Object,
-      required: true,
-    },
     ingredientsItems: {
       type: Array,
       require: true,
@@ -91,6 +81,7 @@ export default {
   },
 
   computed: {
+    ...mapState("builder", ["currentDough", "currentSauce", "currentSize"]),
     viewIngredients: function () {
       var nameIngredients = [];
       this.ingredientsItems.forEach((item) => {

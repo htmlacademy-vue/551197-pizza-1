@@ -5,30 +5,16 @@
         <div class="content__wrapper">
           <h1 class="title title--big">Конструктор пиццы</h1>
 
-          <BuilderDoughSelector
-            :dough="dough"
-            :currentDough="currentDough"
-            @changeDough="changeDough"
-          />
+          <BuilderDoughSelector />
 
-          <BuilderSizeSelector
-            :sizes="sizes"
-            :currentSize="currentSize"
-            @changeSize="changeSize"
-          />
+          <BuilderSizeSelector />
 
           <BuilderIngredientsSelector
-            :sauces="sauces"
-            :currentSauce="currentSauce"
             :ingredientsItems="ingredientsItems"
             @changeCount="changeCount"
-            @changeSauce="changeSauce"
           />
 
           <BuilderPizzaView
-            :currentDough="currentDough"
-            :currentSauce="currentSauce"
-            :currentSize="currentSize"
             :ingredientsItems="ingredientsItems"
             @dropIngredients="dropIngredients"
           />
@@ -60,11 +46,11 @@ export default {
       user: user,
 
       ingredientsItems: this.addLabelIngredients(pizza.ingredients),
-      dough: this.addLabelDough(pizza.dough),
+      // dough: this.addLabelDough(pizza.dough),
       sauces: this.addLabelSauce(pizza.sauces),
       sizes: pizza.sizes,
 
-      currentDough: pizza.dough[0],
+      // currentDough: pizza.dough[0],
       currentSauce: pizza.sauces[0],
       currentSize: pizza.sizes[0],
     };
@@ -84,15 +70,6 @@ export default {
         }
         return item;
       });
-    },
-    changeSize(size) {
-      this.currentSize = size;
-    },
-    changeDough(dough) {
-      this.currentDough = dough;
-    },
-    changeSauce(sauce) {
-      this.currentSauce = sauce;
     },
 
     getSizePizza(multiplier) {
@@ -126,17 +103,17 @@ export default {
       });
       return ingredients;
     },
-    addLabelDough(dough) {
-      dough.forEach((el) => {
-        if (el.name == "Толстое") {
-          this.$set(el, "label", "big");
-        }
-        if (el.name == "Тонкое") {
-          this.$set(el, "label", "small");
-        }
-      });
-      return dough;
-    },
+    // addLabelDough(dough) {
+    //   dough.forEach((el) => {
+    //     if (el.name == "Толстое") {
+    //       this.$set(el, "label", "big");
+    //     }
+    //     if (el.name == "Тонкое") {
+    //       this.$set(el, "label", "small");
+    //     }
+    //   });
+    //   return dough;
+    // },
     addLabelSauce(sauces) {
       sauces.forEach((el) => {
         if (el.name == "Томатный") {
