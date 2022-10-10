@@ -19,6 +19,7 @@
         class="pizza"
         :class="`pizza--foundation--${currentDough.label}-${currentSauce.label}`"
       >
+        <!-- {{ ingredientsItems }} -->
         <div class="pizza__wrapper">
           <template v-for="el in viewIngredients">
             <div
@@ -47,12 +48,7 @@
         </div>
       </div>
     </div>
-    <BuilderPriceCounter
-      :currentDough="currentDough"
-      :ingredientsItems="ingredientsItems"
-      :currentSauce="currentSauce"
-      :currentSize="currentSize"
-    />
+    <BuilderPriceCounter />
   </div>
 </template>
 
@@ -66,12 +62,6 @@ export default {
   components: {
     BuilderPriceCounter,
   },
-  props: {
-    ingredientsItems: {
-      type: Array,
-      require: true,
-    },
-  },
 
   data() {
     return {
@@ -82,6 +72,9 @@ export default {
 
   computed: {
     ...mapState("builder", ["currentDough", "currentSauce", "currentSize"]),
+    ...mapState("builder", ["ingredientsItems"]),
+    ...mapState("builder", ["ingredientsCounts"]),
+
     viewIngredients: function () {
       var nameIngredients = [];
       this.ingredientsItems.forEach((item) => {
@@ -89,6 +82,7 @@ export default {
           nameIngredients.push({ label: item.label, count: item.count });
         }
       });
+      console.log(nameIngredients);
       return nameIngredients;
     },
   },

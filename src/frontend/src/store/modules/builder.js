@@ -1,3 +1,4 @@
+import Vue from "vue";
 import pizza from "@/static/pizza.json";
 
 export default {
@@ -6,16 +7,29 @@ export default {
     dough: pizza.dough,
     sauces: pizza.sauces,
     sizes: pizza.sizes,
-    ingredientsItems: [],
-
+    ingredientsItems: pizza.ingredients,
     currentDough: pizza.dough[0],
     currentSauce: pizza.sauces[0],
     currentSize: pizza.sizes[0],
+    pizzaPrice: 0,
+
+    ingredientsCounts: {},
   },
   getters: {
+    getPrice(state) {
+      var sumPrice = 0;
+      for (let i = 0; i < state.ingredientsItems.length; i++) {
+        sumPrice =
+          sumPrice +
+          state.ingredientsItems[i].count * state.ingredientsItems[i].price;
+      }
+      return (
+        (state.currentDough.price + state.currentSauce.price + sumPrice) *
+        state.currentSize.multiplier
+      );
+    },
     labeledIngredients(state) {
       state.ingredientsItems.forEach((el) => {
-        el.count = 0;
         el.label = el.image
           .replace(".svg", "")
           .replace("/public/img/filling/", "");
@@ -46,6 +60,26 @@ export default {
     },
   },
   mutations: {
+    setNewIngredients(state) {
+      state.ingredientsItems.forEach((el) => {
+        Vue.set(el, "count", 0);
+        Vue.set(
+          el,
+          "label",
+          el.image.replace(".svg", "").replace("/public/img/filling/", "")
+        );
+      });
+      return state.ingredientsItems;
+    },
+
+    setCountIngredients(state, item) {
+      state.ingredientsItems.map((el) => {
+        if (item.label === el.label) {
+          el.count = item.count;
+        }
+      });
+    },
+
     setCurrentDough(state, value) {
       state.currentDough = value;
     },

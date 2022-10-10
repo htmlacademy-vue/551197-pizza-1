@@ -9,15 +9,9 @@
 
           <BuilderSizeSelector />
 
-          <BuilderIngredientsSelector
-            :ingredientsItems="ingredientsItems"
-            @changeCount="changeCount"
-          />
+          <BuilderIngredientsSelector />
 
-          <BuilderPizzaView
-            :ingredientsItems="ingredientsItems"
-            @dropIngredients="dropIngredients"
-          />
+          <BuilderPizzaView @dropIngredients="dropIngredients" />
         </div>
       </form>
     </main>
@@ -33,6 +27,8 @@ import misc from "@/static/misc.json";
 import pizza from "@/static/pizza.json";
 import user from "@/static/user.json";
 
+import { mapMutations } from "vuex";
+
 export default {
   components: {
     BuilderDoughSelector,
@@ -44,8 +40,7 @@ export default {
     return {
       misc: misc,
       user: user,
-
-      ingredientsItems: this.addLabelIngredients(pizza.ingredients),
+      // ingredientsItems: this.addLabelIngredients(pizza.ingredients),
       // dough: this.addLabelDough(pizza.dough),
       sauces: this.addLabelSauce(pizza.sauces),
       sizes: pizza.sizes,
@@ -56,6 +51,8 @@ export default {
     };
   },
   methods: {
+    ...mapMutations("builder", ["setNewIngredients"]),
+
     dropIngredients(drop) {
       this.ingredientsItems.forEach((el) => {
         if (el.label == drop) {
@@ -63,14 +60,14 @@ export default {
         }
       });
     },
-    changeCount(label, count) {
-      this.ingredientsItems = this.ingredientsItems.map((item) => {
-        if (item.label === label) {
-          item.count = count;
-        }
-        return item;
-      });
-    },
+    // changeCount(label, count) {
+    //   this.ingredientsItems = this.ingredientsItems.map((item) => {
+    //     if (item.label === label) {
+    //       item.count = count;
+    //     }
+    //     return item;
+    //   });
+    // },
 
     getSizePizza(multiplier) {
       switch (multiplier) {

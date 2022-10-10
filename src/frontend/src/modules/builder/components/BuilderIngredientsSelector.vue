@@ -57,18 +57,19 @@ export default {
     ItemCounter,
     SelectorItem,
   },
-  props: {
-    ingredientsItems: {
-      type: Array,
-      require: true,
-    },
+
+  created() {
+    this.setNewIngredients();
   },
   computed: {
     ...mapState("builder", ["currentSauce"]),
+    ...mapState("builder", ["ingredientsItems"]),
     ...mapGetters("builder", ["labeledlSauces"]),
   },
   methods: {
     ...mapMutations("builder", ["setCurrentSauce"]),
+    ...mapMutations("builder", ["setNewIngredients"]),
+    ...mapMutations("builder", ["setCountIngredients"]),
 
     draggable(item) {
       if (item.count < 3) {
@@ -76,12 +77,12 @@ export default {
       } else return;
     },
     itemCount(label, count) {
-      this.$emit("changeCount", label, count);
+      let item = { label: label, count: count };
+      this.setCountIngredients(item);
     },
 
     changeSauce(sauce) {
       this.setCurrentSauce(sauce);
-      // this.$emit("changeSauce", sauce);
     },
 
     startDrag(evt, item) {
