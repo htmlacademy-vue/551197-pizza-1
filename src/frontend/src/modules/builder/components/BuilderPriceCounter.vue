@@ -16,6 +16,7 @@ export default {
   },
   methods: {
     ...mapMutations("builder", ["setCountIngredients"]),
+    ...mapMutations("builder", ["setPrice"]),
   },
 };
 </script>

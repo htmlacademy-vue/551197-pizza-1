@@ -8,7 +8,7 @@
         placeholder="Введите название пиццы"
       />
     </label>
-
+    {{ pizza }}
     <div
       @drop="onDrop"
       @dragover.prevent
@@ -19,7 +19,6 @@
         class="pizza"
         :class="`pizza--foundation--${currentDough.label}-${currentSauce.label}`"
       >
-        <!-- {{ ingredientsItems }} -->
         <div class="pizza__wrapper">
           <template v-for="el in viewIngredients">
             <div
@@ -65,7 +64,6 @@ export default {
 
   data() {
     return {
-      pizzaName: "",
       drops: [],
     };
   },
@@ -89,6 +87,9 @@ export default {
   methods: {
     onDrop(evt) {
       this.$emit("dropIngredients", evt.dataTransfer.getData("item"));
+    },
+    test(objectPizza) {
+      console.log(objectPizza);
     },
   },
 };

@@ -13,7 +13,22 @@ export default {
     currentSize: pizza.sizes[0],
     pizzaPrice: 0,
 
-    ingredientsCounts: {},
+    pizzaForCart: [
+      {
+        label: "Капричоза",
+        description:
+          "30 см, на тонком тесте Соус: томатный Начинка: грибы, лук, ветчина, пармезан, ананас",
+        price: 200,
+        count: 1,
+      },
+      {
+        label: "Любимая пицца",
+        description:
+          "30 см, на толстом тесте Соус: томатный Начинка: помидоры, салями, сыр",
+        price: 400,
+        count: 1,
+      },
+    ],
   },
   getters: {
     getPrice(state) {

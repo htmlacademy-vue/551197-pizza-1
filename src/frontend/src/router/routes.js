@@ -19,7 +19,7 @@ const routes = [
   {
     path: "/cart",
     name: "Cart",
-    component: () => import("../views/Cart"),
+    component: () => import("../modules/cart/Cart.vue"),
     meta: { layout: "AppLayoutHeader" },
   },
   {

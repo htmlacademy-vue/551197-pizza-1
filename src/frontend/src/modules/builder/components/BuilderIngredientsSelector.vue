@@ -36,6 +36,7 @@
                 :draggable="draggable(item)"
                 @dragstart.native="startDrag($event, item.label)"
               />
+
               <ItemCounter @itemCount="itemCount" :item="item" />
             </li>
           </ul>
