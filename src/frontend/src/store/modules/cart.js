@@ -17,7 +17,7 @@ export default {
       return state.totalPrice;
     },
     labeledMisc(state) {
-      state.misc.forEach((el) => {
+      state.misc.map((el) => {
         el.label = el.image.replace(".svg", "").replace("/public/img/", "");
       });
       return state.misc;
@@ -43,14 +43,14 @@ export default {
       return state.misc;
     },
     setCountMisc(state, item) {
-      state.misc.map((el) => {
+      state.misc.forEach((el) => {
         if (item.label === el.label) {
           el.count = item.count;
         }
       });
     },
     setCountPizza(state, item) {
-      state.pizza.map((el) => {
+      state.pizza.forEach((el) => {
         if (item.label === el.label) {
           el.count = item.count;
         }
