@@ -40,12 +40,8 @@ export default {
     return {
       misc: misc,
       user: user,
-      // ingredientsItems: this.addLabelIngredients(pizza.ingredients),
-      // dough: this.addLabelDough(pizza.dough),
       sauces: this.addLabelSauce(pizza.sauces),
       sizes: pizza.sizes,
-
-      // currentDough: pizza.dough[0],
       currentSauce: pizza.sauces[0],
       currentSize: pizza.sizes[0],
     };
@@ -54,20 +50,12 @@ export default {
     ...mapMutations("builder", ["setNewIngredients"]),
 
     dropIngredients(drop) {
-      this.ingredientsItems.forEach((el) => {
+      this.$store.state.builder.ingredientsItems.forEach((el) => {
         if (el.label == drop) {
           el.count++;
         }
       });
     },
-    // changeCount(label, count) {
-    //   this.ingredientsItems = this.ingredientsItems.map((item) => {
-    //     if (item.label === label) {
-    //       item.count = count;
-    //     }
-    //     return item;
-    //   });
-    // },
 
     getSizePizza(multiplier) {
       switch (multiplier) {
@@ -100,17 +88,6 @@ export default {
       });
       return ingredients;
     },
-    // addLabelDough(dough) {
-    //   dough.forEach((el) => {
-    //     if (el.name == "Толстое") {
-    //       this.$set(el, "label", "big");
-    //     }
-    //     if (el.name == "Тонкое") {
-    //       this.$set(el, "label", "small");
-    //     }
-    //   });
-    //   return dough;
-    // },
     addLabelSauce(sauces) {
       sauces.forEach((el) => {
         if (el.name == "Томатный") {

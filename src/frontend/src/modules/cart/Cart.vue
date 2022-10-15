@@ -1,7 +1,6 @@
 <template>
   <div>
     <!-- <form class="layout-form"> -->
-    <CartModal @close="clodeModal" v-if="isModal" />
 
     <main class="content cart">
       <div class="container">
@@ -9,7 +8,9 @@
           <h1 class="title title--big">Корзина</h1>
         </div>
 
-        <ul class="cart-list sheet">
+        <CartEmpty v-if="getPizza.length == 0" />
+
+        <ul v-if="getPizza.length > 0" class="cart-list sheet">
           <li class="cart-list__item" v-for="item in getPizza" :key="item.id">
             <div class="product cart-list__product">
               <img
@@ -17,7 +18,7 @@
                 class="product__img"
                 width="56"
                 height="56"
-                alt="Капричоза"
+                alt="Пицца"
               />
               <div class="product__text">
                 <h2>{{ item.label }}</h2>
@@ -27,7 +28,11 @@
               </div>
             </div>
             <div class="counter cart-list__counter">
-              <ItemCounter @itemCount="itemCountPizza" :item="item" />
+              <ItemCounter
+                @itemCount="itemCountPizza"
+                :item="item"
+                :isOrange="true"
+              />
             </div>
 
             <div class="cart-list__price">
@@ -52,7 +57,11 @@
                 <span>{{ item.name }}</span>
               </p>
 
-              <ItemCounter @itemCount="itemCountMisc" :item="item" />
+              <ItemCounter
+                @itemCount="itemCountMisc"
+                :item="item"
+                :isOrange="true"
+              />
             </li>
           </ul>
         </div>
@@ -103,23 +112,25 @@
       </div>
     </main>
 
+    <CartModal @close="clodeModal" v-if="isModal" />
+
     <section class="footer">
       <div class="footer__more">
-        <a href="#" class="button button--border button--arrow"
-          >Хочу еще одну</a
+        <router-link to="/">
+          <a href="#" class="button button--border button--arrow"
+            >Хочу еще одну</a
+          ></router-link
         >
       </div>
       <p class="footer__text">
         Перейти к конструктору<br />чтоб собрать ещё одну пиццу
       </p>
       <div class="footer__price">
-        <b>Итого: 2 228 ₽</b>
+        <b>Итого: {{ resultPrice() }} ₽</b>
       </div>
 
       <div class="footer__submit">
-        <button class="button" v-on:click="isModal = true">
-          Оформить заказ
-        </button>
+        <button class="button" v-on:click="saveOrder()">Оформить заказ</button>
       </div>
     </section>
     <!-- </form> -->
@@ -130,12 +141,14 @@
 import ItemCounter from "@/common/components/ItemCounter";
 import { mapGetters, mapMutations } from "vuex";
 import CartModal from "@/modules/cart/CartModal";
+import CartEmpty from "@/modules/cart/CartEmpty";
 
 export default {
   name: "Cart",
   components: {
     ItemCounter,
     CartModal,
+    CartEmpty,
   },
 
   data() {
@@ -150,24 +163,38 @@ export default {
   computed: {
     ...mapGetters("cart", ["labeledMisc"]),
     ...mapGetters("cart", ["getPizza"]),
+    ...mapGetters("cart", ["getPriceMisc"]),
   },
   methods: {
     ...mapMutations("cart", ["setNewMisc"]),
     ...mapMutations("cart", ["setCountMisc"]),
     ...mapMutations("cart", ["setCountPizza"]),
+    ...mapMutations("cart", ["setTotalPrice"]),
 
     itemCountMisc(label, count) {
       let item = { label: label, count: count };
-      console.log(item);
       this.setCountMisc(item);
     },
     itemCountPizza(label, count) {
       let item = { label: label, count: count };
-      console.log(item);
       this.setCountPizza(item);
     },
     clodeModal() {
       this.isModal = false;
+    },
+    saveOrder() {
+      this.isModal = true;
+    },
+
+    resultPrice() {
+      let pricePizza = 0;
+      for (let i = 0; i < this.getPizza.length; i++) {
+        pricePizza =
+          pricePizza + this.getPizza[i].price * this.getPizza[i].count;
+      }
+
+      this.setTotalPrice(pricePizza + this.getPriceMisc);
+      return pricePizza + this.getPriceMisc;
     },
   },
 };

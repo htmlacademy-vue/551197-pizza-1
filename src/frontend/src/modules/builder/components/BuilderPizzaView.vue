@@ -6,9 +6,10 @@
         type="text"
         name="pizza_name"
         placeholder="Введите название пиццы"
+        v-model="name"
+        @change="setName()"
       />
     </label>
-    {{ pizza }}
     <div
       @drop="onDrop"
       @dragover.prevent
@@ -54,7 +55,7 @@
 <script>
 import BuilderPriceCounter from "./BuilderPriceCounter.vue";
 
-import { mapState } from "vuex";
+import { mapMutations, mapState } from "vuex";
 
 export default {
   name: "BuilderPizzaView",
@@ -65,6 +66,7 @@ export default {
   data() {
     return {
       drops: [],
+      name: "",
     };
   },
 
@@ -80,16 +82,17 @@ export default {
           nameIngredients.push({ label: item.label, count: item.count });
         }
       });
-      console.log(nameIngredients);
       return nameIngredients;
     },
   },
   methods: {
+    ...mapMutations("builder", ["setCurrentPizzaName"]),
+
     onDrop(evt) {
       this.$emit("dropIngredients", evt.dataTransfer.getData("item"));
     },
-    test(objectPizza) {
-      console.log(objectPizza);
+    setName() {
+      this.setCurrentPizzaName(this.name);
     },
   },
 };

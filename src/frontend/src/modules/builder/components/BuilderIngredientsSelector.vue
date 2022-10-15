@@ -37,7 +37,11 @@
                 @dragstart.native="startDrag($event, item.label)"
               />
 
-              <ItemCounter @itemCount="itemCount" :item="item" />
+              <ItemCounter
+                @itemCount="itemCount"
+                :item="item"
+                :isOrange="false"
+              />
             </li>
           </ul>
         </div>

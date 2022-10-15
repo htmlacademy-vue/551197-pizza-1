@@ -4,6 +4,7 @@ import pizza from "@/static/pizza.json";
 export default {
   namespaced: true,
   state: {
+    namePizza: "",
     dough: pizza.dough,
     sauces: pizza.sauces,
     sizes: pizza.sizes,
@@ -13,22 +14,7 @@ export default {
     currentSize: pizza.sizes[0],
     pizzaPrice: 0,
 
-    pizzaForCart: [
-      {
-        label: "Капричоза",
-        description:
-          "30 см, на тонком тесте Соус: томатный Начинка: грибы, лук, ветчина, пармезан, ананас",
-        price: 200,
-        count: 1,
-      },
-      {
-        label: "Любимая пицца",
-        description:
-          "30 см, на толстом тесте Соус: томатный Начинка: помидоры, салями, сыр",
-        price: 400,
-        count: 1,
-      },
-    ],
+    pizzaForCart: [],
   },
   getters: {
     getPrice(state) {
@@ -104,6 +90,13 @@ export default {
     },
     setCurrentSize(state, value) {
       state.currentSize = value;
+    },
+    setCurrentPizzaName(state, value) {
+      state.namePizza = value;
+    },
+
+    setPizzaSettingsForCart(state, value) {
+      state.pizzaForCart.unshift(value);
     },
   },
   actions: {},

@@ -6,18 +6,28 @@ export default {
   namespaced: true,
   state: {
     misc: misc,
-    pizzas: builder.state.pizzaForCart,
+    pizza: builder.state.pizzaForCart,
+    totalPrice: 0,
   },
   getters: {
     getPizza(state) {
-      console.log(state.pizzas);
-      return state.pizzas;
+      return state.pizza;
+    },
+    getTotalPrice(state) {
+      return state.totalPrice;
     },
     labeledMisc(state) {
       state.misc.forEach((el) => {
         el.label = el.image.replace(".svg", "").replace("/public/img/", "");
       });
       return state.misc;
+    },
+    getPriceMisc(state) {
+      var sumPriceMisc = 0;
+      for (let i = 0; i < state.misc.length; i++) {
+        sumPriceMisc = sumPriceMisc + state.misc[i].count * state.misc[i].price;
+      }
+      return sumPriceMisc;
     },
   },
   mutations: {
@@ -40,11 +50,15 @@ export default {
       });
     },
     setCountPizza(state, item) {
-      state.pizzas.map((el) => {
+      state.pizza.map((el) => {
         if (item.label === el.label) {
           el.count = item.count;
         }
       });
+    },
+
+    setTotalPrice(state, value) {
+      state.totalPrice = value;
     },
   },
   actions: {},
