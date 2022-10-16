@@ -1,7 +1,7 @@
 <template>
   <div class="content__result">
     <p>Итого: {{ getPrice }} ₽</p>
-    <button type="button" class="button" v-on:click="savePizzaSettings()">
+    <button type="button" class="button" @click="savePizzaSettings()">
       Готовьте!
     </button>
   </div>

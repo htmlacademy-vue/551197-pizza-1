@@ -46,19 +46,10 @@ export default {
   },
   computed: {
     disabledReduce() {
-      if (this.item.count == 0) {
-        return true;
-      }
-      return false;
+      return this.item.count == 0;
     },
     disabledAdd() {
-      if (this.isOrange == false) {
-        if (this.item.count >= 3) {
-          return true;
-        }
-        return false;
-      }
-      return false;
+      return !this.isOrange && this.item.count >= 3;
     },
   },
 

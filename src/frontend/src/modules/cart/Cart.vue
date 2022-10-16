@@ -112,25 +112,23 @@
       </div>
     </main>
 
-    <CartModal @close="clodeModal" v-if="isModal" />
+    <CartModal @close="closeModal" v-if="isModal" />
 
     <section class="footer">
       <div class="footer__more">
-        <router-link to="/">
-          <a href="#" class="button button--border button--arrow"
-            >Хочу еще одну</a
-          ></router-link
-        >
+        <router-link to="/" class="button button--border button--arrow">
+          Хочу еще одну
+        </router-link>
       </div>
       <p class="footer__text">
         Перейти к конструктору<br />чтоб собрать ещё одну пиццу
       </p>
       <div class="footer__price">
-        <b>Итого: {{ resultPrice() }} ₽</b>
+        <b>Итого: {{ resultPrice }} ₽</b>
       </div>
 
       <div class="footer__submit">
-        <button class="button" v-on:click="saveOrder()">Оформить заказ</button>
+        <button class="button" @click="saveOrder()">Оформить заказ</button>
       </div>
     </section>
     <!-- </form> -->
@@ -160,10 +158,21 @@ export default {
   created() {
     this.setNewMisc();
   },
+
   computed: {
     ...mapGetters("cart", ["labeledMisc"]),
     ...mapGetters("cart", ["getPizza"]),
     ...mapGetters("cart", ["getPriceMisc"]),
+
+    resultPrice: function () {
+      let pricePizza = 0;
+      for (let i = 0; i < this.getPizza.length; i++) {
+        pricePizza =
+          pricePizza + this.getPizza[i].price * this.getPizza[i].count;
+      }
+
+      return pricePizza + this.getPriceMisc;
+    },
   },
   methods: {
     ...mapMutations("cart", ["setNewMisc"]),
@@ -179,22 +188,11 @@ export default {
       let item = { label: label, count: count };
       this.setCountPizza(item);
     },
-    clodeModal() {
+    closeModal() {
       this.isModal = false;
     },
     saveOrder() {
       this.isModal = true;
-    },
-
-    resultPrice() {
-      let pricePizza = 0;
-      for (let i = 0; i < this.getPizza.length; i++) {
-        pricePizza =
-          pricePizza + this.getPizza[i].price * this.getPizza[i].count;
-      }
-
-      this.setTotalPrice(pricePizza + this.getPriceMisc);
-      return pricePizza + this.getPriceMisc;
     },
   },
 };

@@ -6,8 +6,7 @@
         type="text"
         name="pizza_name"
         placeholder="Введите название пиццы"
-        v-model="name"
-        @change="setName()"
+        @change="setName($event.target.value)"
       />
     </label>
     <div
@@ -66,7 +65,6 @@ export default {
   data() {
     return {
       drops: [],
-      name: "",
     };
   },
 
@@ -91,8 +89,8 @@ export default {
     onDrop(evt) {
       this.$emit("dropIngredients", evt.dataTransfer.getData("item"));
     },
-    setName() {
-      this.setCurrentPizzaName(this.name);
+    setName(val) {
+      this.setCurrentPizzaName(val);
     },
   },
 };
