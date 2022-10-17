@@ -18,7 +18,10 @@
     />
     <button
       type="button"
-      class="counter__button counter__button--plus"
+      :class="[
+        'counter__button counter__button--plus',
+        isOrange ? 'counter__button--orange' : '',
+      ]"
       @click="add"
       :disabled="disabledAdd"
     >
@@ -36,19 +39,17 @@ export default {
       type: Object,
       required: true,
     },
+    isOrange: {
+      type: Boolean,
+      required: true,
+    },
   },
   computed: {
     disabledReduce() {
-      if (this.item.count == 0) {
-        return true;
-      }
-      return false;
+      return this.item.count == 0;
     },
     disabledAdd() {
-      if (this.item.count >= 3) {
-        return true;
-      }
-      return false;
+      return !this.isOrange && this.item.count >= 3;
     },
   },
 

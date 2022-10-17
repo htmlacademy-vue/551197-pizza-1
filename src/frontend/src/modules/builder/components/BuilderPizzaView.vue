@@ -6,9 +6,9 @@
         type="text"
         name="pizza_name"
         placeholder="Введите название пиццы"
+        @change="setName($event.target.value)"
       />
     </label>
-
     <div
       @drop="onDrop"
       @dragover.prevent
@@ -47,50 +47,32 @@
         </div>
       </div>
     </div>
-    <BuilderPriceCounter
-      :currentDough="currentDough"
-      :ingredientsItems="ingredientsItems"
-      :currentSauce="currentSauce"
-      :currentSize="currentSize"
-    />
+    <BuilderPriceCounter />
   </div>
 </template>
 
 <script>
 import BuilderPriceCounter from "./BuilderPriceCounter.vue";
 
+import { mapMutations, mapState } from "vuex";
+
 export default {
   name: "BuilderPizzaView",
   components: {
     BuilderPriceCounter,
   },
-  props: {
-    currentDough: {
-      type: Object,
-      required: true,
-    },
-    currentSauce: {
-      type: Object,
-      required: true,
-    },
-    currentSize: {
-      type: Object,
-      required: true,
-    },
-    ingredientsItems: {
-      type: Array,
-      require: true,
-    },
-  },
 
   data() {
     return {
-      pizzaName: "",
       drops: [],
     };
   },
 
   computed: {
+    ...mapState("builder", ["currentDough", "currentSauce", "currentSize"]),
+    ...mapState("builder", ["ingredientsItems"]),
+    ...mapState("builder", ["ingredientsCounts"]),
+
     viewIngredients: function () {
       var nameIngredients = [];
       this.ingredientsItems.forEach((item) => {
@@ -102,8 +84,13 @@ export default {
     },
   },
   methods: {
+    ...mapMutations("builder", ["setCurrentPizzaName"]),
+
     onDrop(evt) {
       this.$emit("dropIngredients", evt.dataTransfer.getData("item"));
+    },
+    setName(val) {
+      this.setCurrentPizzaName(val);
     },
   },
 };

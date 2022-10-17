@@ -5,7 +5,7 @@
 
       <div class="sheet__content dough">
         <RadioButton
-          v-for="item in dough"
+          v-for="item in labeledDough"
           :item="item"
           :key="item.id"
           :itemName="item.name"
@@ -25,22 +25,21 @@
 <script>
 import RadioButton from "@/common/components/RadioButton";
 
+import { mapState, mapGetters, mapMutations } from "vuex";
+
 export default {
   name: "BuilderDoughtSelector",
   components: {
     RadioButton,
   },
-  props: {
-    dough: {
-      type: Array,
-      require: true,
-    },
-    currentDough: {
-      type: Object,
-      require: true,
-    },
+
+  computed: {
+    ...mapGetters("builder", ["labeledDough"]),
+    ...mapState("builder", ["currentDough"]),
   },
   methods: {
+    ...mapMutations("builder", ["setCurrentDough"]),
+
     getDoughPizza(name) {
       switch (name) {
         case "Тонкое":
@@ -52,7 +51,7 @@ export default {
       }
     },
     changeDough(dough) {
-      this.$emit("changeDough", dough);
+      this.setCurrentDough(dough);
     },
   },
 };

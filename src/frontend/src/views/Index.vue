@@ -5,33 +5,13 @@
         <div class="content__wrapper">
           <h1 class="title title--big">Конструктор пиццы</h1>
 
-          <BuilderDoughSelector
-            :dough="dough"
-            :currentDough="currentDough"
-            @changeDough="changeDough"
-          />
+          <BuilderDoughSelector />
 
-          <BuilderSizeSelector
-            :sizes="sizes"
-            :currentSize="currentSize"
-            @changeSize="changeSize"
-          />
+          <BuilderSizeSelector />
 
-          <BuilderIngredientsSelector
-            :sauces="sauces"
-            :currentSauce="currentSauce"
-            :ingredientsItems="ingredientsItems"
-            @changeCount="changeCount"
-            @changeSauce="changeSauce"
-          />
+          <BuilderIngredientsSelector />
 
-          <BuilderPizzaView
-            :currentDough="currentDough"
-            :currentSauce="currentSauce"
-            :currentSize="currentSize"
-            :ingredientsItems="ingredientsItems"
-            @dropIngredients="dropIngredients"
-          />
+          <BuilderPizzaView @dropIngredients="dropIngredients" />
         </div>
       </form>
     </main>
@@ -47,6 +27,8 @@ import misc from "@/static/misc.json";
 import pizza from "@/static/pizza.json";
 import user from "@/static/user.json";
 
+import { mapMutations } from "vuex";
+
 export default {
   components: {
     BuilderDoughSelector,
@@ -58,41 +40,21 @@ export default {
     return {
       misc: misc,
       user: user,
-
-      ingredientsItems: this.addLabelIngredients(pizza.ingredients),
-      dough: this.addLabelDough(pizza.dough),
       sauces: this.addLabelSauce(pizza.sauces),
       sizes: pizza.sizes,
-
-      currentDough: pizza.dough[0],
       currentSauce: pizza.sauces[0],
       currentSize: pizza.sizes[0],
     };
   },
   methods: {
+    ...mapMutations("builder", ["setNewIngredients"]),
+
     dropIngredients(drop) {
-      this.ingredientsItems.forEach((el) => {
+      this.$store.state.builder.ingredientsItems.forEach((el) => {
         if (el.label == drop) {
           el.count++;
         }
       });
-    },
-    changeCount(label, count) {
-      this.ingredientsItems = this.ingredientsItems.map((item) => {
-        if (item.label === label) {
-          item.count = count;
-        }
-        return item;
-      });
-    },
-    changeSize(size) {
-      this.currentSize = size;
-    },
-    changeDough(dough) {
-      this.currentDough = dough;
-    },
-    changeSauce(sauce) {
-      this.currentSauce = sauce;
     },
 
     getSizePizza(multiplier) {
@@ -125,17 +87,6 @@ export default {
           .replace("/public/img/filling/", "");
       });
       return ingredients;
-    },
-    addLabelDough(dough) {
-      dough.forEach((el) => {
-        if (el.name == "Толстое") {
-          this.$set(el, "label", "big");
-        }
-        if (el.name == "Тонкое") {
-          this.$set(el, "label", "small");
-        }
-      });
-      return dough;
     },
     addLabelSauce(sauces) {
       sauces.forEach((el) => {

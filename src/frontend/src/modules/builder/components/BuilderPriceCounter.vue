@@ -1,45 +1,47 @@
 <template>
   <div class="content__result">
-    <p>Итого: {{ price }} ₽</p>
-    <button type="button" class="button">Готовьте!</button>
+    <p>Итого: {{ getPrice }} ₽</p>
+    <button type="button" class="button" @click="savePizzaSettings()">
+      Готовьте!
+    </button>
   </div>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+import { mapMutations } from "vuex";
+
 export default {
   name: "BuilderPriceCounter",
-
-  props: {
-    currentDough: {
-      type: Object,
-      required: true,
-    },
-    currentSauce: {
-      type: Object,
-      required: true,
-    },
-    currentSize: {
-      type: Object,
-      required: true,
-    },
-    ingredientsItems: {
-      type: Array,
-      required: true,
-    },
-  },
-
   computed: {
-    price: function () {
-      var ingredientsPrice = 0;
-      for (let i = 0; i < this.ingredientsItems.length; i++) {
-        ingredientsPrice =
-          ingredientsPrice +
-          this.ingredientsItems[i].count * this.ingredientsItems[i].price;
+    ...mapGetters("builder", ["getPrice"]),
+  },
+  methods: {
+    ...mapMutations("builder", ["setPizzaSettingsForCart"]),
+
+    savePizzaSettings() {
+      let pizzaState = this.$store.state.builder;
+      var currentPizzaIngredients = [];
+      for (let i = 0; i < pizzaState.ingredientsItems.length; i++) {
+        if (pizzaState.ingredientsItems[i].count > 0) {
+          currentPizzaIngredients.push(
+            " " + pizzaState.ingredientsItems[i].name.toLowerCase()
+          );
+        }
       }
-      return (
-        (this.currentDough.price + this.currentSauce.price + ingredientsPrice) *
-        this.currentSize.multiplier
-      );
+
+      let objectPizza = {
+        label: pizzaState.namePizza,
+        dough: pizzaState.currentDough,
+        sauce: pizzaState.currentSauce,
+        size: pizzaState.currentSize,
+        description: ` ${pizzaState.currentSize.name.toLowerCase()} Тесто: ${pizzaState.currentDough.name.toLowerCase()} Соус: ${pizzaState.currentSauce.name.toLowerCase()} Начинка:${currentPizzaIngredients}`,
+        price: this.getPrice,
+        count: 1,
+      };
+
+      this.setPizzaSettingsForCart(objectPizza);
+      this.$router.push("Cart");
     },
   },
 };

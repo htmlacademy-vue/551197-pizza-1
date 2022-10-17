@@ -8,7 +8,7 @@
           <p>Основной соус:</p>
           <label
             class="radio ingredients__input"
-            v-for="sauce in sauces"
+            v-for="sauce in labeledlSauces"
             :key="sauce.id"
           >
             <input
@@ -36,7 +36,12 @@
                 :draggable="draggable(item)"
                 @dragstart.native="startDrag($event, item.label)"
               />
-              <ItemCounter @itemCount="itemCount" :item="item" />
+
+              <ItemCounter
+                @itemCount="itemCount"
+                :item="item"
+                :isOrange="false"
+              />
             </li>
           </ul>
         </div>
@@ -48,38 +53,41 @@
 <script>
 import ItemCounter from "@/common/components/ItemCounter";
 import SelectorItem from "@/common/components/SelectorItem";
+
+import { mapGetters, mapMutations, mapState } from "vuex";
+
 export default {
   name: "BuulderIngredientSelector",
   components: {
     ItemCounter,
     SelectorItem,
   },
-  props: {
-    sauces: {
-      type: Array,
-      require: true,
-    },
-    ingredientsItems: {
-      type: Array,
-      require: true,
-    },
-    currentSauce: {
-      type: Object,
-      require: true,
-    },
+
+  created() {
+    this.setNewIngredients();
+  },
+  computed: {
+    ...mapState("builder", ["currentSauce"]),
+    ...mapState("builder", ["ingredientsItems"]),
+    ...mapGetters("builder", ["labeledlSauces"]),
   },
   methods: {
+    ...mapMutations("builder", ["setCurrentSauce"]),
+    ...mapMutations("builder", ["setNewIngredients"]),
+    ...mapMutations("builder", ["setCountIngredients"]),
+
     draggable(item) {
       if (item.count < 3) {
         return "draggable";
       } else return;
     },
     itemCount(label, count) {
-      this.$emit("changeCount", label, count);
+      let item = { label: label, count: count };
+      this.setCountIngredients(item);
     },
 
     changeSauce(sauce) {
-      this.$emit("changeSauce", sauce);
+      this.setCurrentSauce(sauce);
     },
 
     startDrag(evt, item) {
