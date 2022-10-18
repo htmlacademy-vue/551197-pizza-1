@@ -67,7 +67,6 @@ export default {
       drops: [],
     };
   },
-
   computed: {
     ...mapState("builder", ["currentDough", "currentSauce", "currentSize"]),
     ...mapState("builder", ["ingredientsItems"]),

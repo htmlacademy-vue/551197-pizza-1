@@ -10,7 +10,8 @@
 </template>
 
 <script>
-import { DATA_TRANSFER_PAYLOAD, MOVE } from "@/common/constants.json";
+import { DATA_TRANSFER_PAYLOAD } from "@/common/constants.js";
+import { MOVE } from "@/common/constants.js";
 export default {
   name: "AppDrag",
   props: {
