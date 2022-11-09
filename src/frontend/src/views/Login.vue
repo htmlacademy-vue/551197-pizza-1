@@ -39,7 +39,6 @@
 </template>
 
 <script>
-// Используем миксин валидатор для валидации полей формы
 import validator from "@/common/mixins/validator";
 import { mapActions } from "vuex";
 
@@ -50,8 +49,6 @@ export default {
     return {
       email: "",
       password: "",
-      // и добавляем объект validations. Поля cо списком правил валидации
-      // и параметром error для присвоения текста ошибки в миксине.
       validations: {
         email: {
           error: "",
@@ -65,7 +62,6 @@ export default {
     };
   },
 
-  // При изменении любого из полей очищаем ошибки валидации
   watch: {
     email() {
       this.$clearValidationError("email");
@@ -74,14 +70,11 @@ export default {
       this.$clearValidationError("password");
     },
   },
-  // при входе на страницу ставим фокус на email-инпуте
   mounted() {
     this.$refs.email.focus();
   },
   methods: {
     ...mapActions("auth", ["login"]),
-
-    //если есть невалидные поля - ничего не делать
     async onSubmit() {
       if (
         !this.$validateFields(
@@ -91,7 +84,6 @@ export default {
       ) {
         return;
       }
-      //если всё нормально, логиним
       await this.login({
         email: this.email,
         password: this.password,

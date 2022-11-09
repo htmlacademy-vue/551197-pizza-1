@@ -1,17 +1,19 @@
-import Vue from "vue";
-import pizza from "@/static/pizza.json";
+import { SET_ENTITY } from "../mutation-types";
+
+import { EDIT_PIZZA } from "../mutation-types";
+import { normalizeItems, normalizeIngredientsItems } from "@/common/helpers.js";
 
 export default {
   namespaced: true,
   state: {
     namePizza: "",
-    dough: pizza.dough,
-    sauces: pizza.sauces,
-    sizes: pizza.sizes,
-    ingredientsItems: pizza.ingredients,
-    currentDough: pizza.dough[0],
-    currentSauce: pizza.sauces[0],
-    currentSize: pizza.sizes[0],
+    dough: [],
+    sauces: [],
+    sizes: [],
+    ingredientsItems: [],
+    currentDough: {},
+    currentSauce: {},
+    currentSize: {},
     pizzaPrice: 0,
 
     pizzaForCart: [],
@@ -61,18 +63,6 @@ export default {
     },
   },
   mutations: {
-    setNewIngredients(state) {
-      state.ingredientsItems.forEach((el) => {
-        Vue.set(el, "count", 0);
-        Vue.set(
-          el,
-          "label",
-          el.image.replace(".svg", "").replace("/public/img/filling/", "")
-        );
-      });
-      return state.ingredientsItems;
-    },
-
     setCountIngredients(state, item) {
       state.ingredientsItems.map((el) => {
         if (item.label === el.label) {
@@ -98,6 +88,77 @@ export default {
     setPizzaSettingsForCart(state, value) {
       state.pizzaForCart.unshift(value);
     },
+
+    [EDIT_PIZZA](state, newState) {
+      Object.assign(state, newState);
+    },
   },
-  actions: {},
+  actions: {
+    async getDoughData({ commit }) {
+      const data = await this.$api.builder.fetchDough();
+      const items = data.map((item) => normalizeItems(item));
+
+      commit(
+        SET_ENTITY,
+        { module: "builder", entity: "dough", value: items },
+        { root: true }
+      );
+      commit(
+        SET_ENTITY,
+        { module: "builder", entity: "currentDough", value: items[0] },
+        { root: true }
+      );
+    },
+    async getSaucesData({ commit }) {
+      const data = await this.$api.builder.fetchSauces();
+      const items = data.map((item) => normalizeItems(item));
+
+      commit(
+        SET_ENTITY,
+        { module: "builder", entity: "sauces", value: items },
+        { root: true }
+      );
+      commit(
+        SET_ENTITY,
+        { module: "builder", entity: "currentSauce", value: items[0] },
+        { root: true }
+      );
+    },
+    async getSizesData({ commit }) {
+      const data = await this.$api.builder.fetchSizes();
+
+      commit(
+        SET_ENTITY,
+        { module: "builder", entity: "sizes", value: data },
+        { root: true }
+      );
+      commit(
+        SET_ENTITY,
+        { module: "builder", entity: "currentSize", value: data[0] },
+        { root: true }
+      );
+    },
+
+    async getIngredientsData({ commit }) {
+      const data = await this.$api.builder.fetchIngredients();
+      const items = data.map((item) => normalizeIngredientsItems(item));
+      commit(
+        SET_ENTITY,
+        { module: "builder", entity: "ingredientsItems", value: items },
+        { root: true }
+      );
+    },
+
+    editPizza({ commit }, pizza) {
+      const newState = {
+        namePizza: pizza.label,
+        currentDough: pizza.dough,
+        currentSauce: pizza.sauce,
+        currentSize: pizza.size,
+        pizzaPrice: pizza.price,
+        ingredientsItems: pizza.ingredients,
+      };
+      commit(EDIT_PIZZA, newState);
+    },
+  },
 };

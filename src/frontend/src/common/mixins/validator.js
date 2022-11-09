@@ -1,46 +1,44 @@
-import { EMAIL_REGEX } from "@/common/constants";
+/* eslint-disable */
+import { emailRegex, urlRegex } from "@/common/constants";
 
 const rules = {
+  isNotEmpty: {
+    rule: (value) => !!value?.trim(),
+    message: "Поле не заполнено",
+  },
   required: {
-    /* eslint-disable-next-line */
     rule: (value) => !!value?.trim(),
     message: "Поле обязательно для заполнения",
   },
   email: {
     rule: (value) =>
-      /* eslint-disable-next-line */
-      !!value ? EMAIL_REGEX.test(String(value).toLowerCase()) : true,
-    message: "Электроная почта имеет неверный формат",
+      !!value ? emailRegex.test(String(value).toLowerCase()) : true,
+    message: "Электронная почта имеет неверный формат",
+  },
+  url: {
+    rule: (value) => (!!value ? urlRegex.test(value) : true),
+    message: "Ссылка имеет неверный формат",
   },
 };
 
-/**
- * @param { String } value
- * @param { String[] } appliedRules
- * @returns {string}
- */
-
 const validator = (value, appliedRules) => {
   let error = "";
-
   appliedRules.forEach((appliedRule) => {
     if (!rules[appliedRule]) {
       return;
     }
-
     const { rule, message } = rules[appliedRule];
-
     if (!rule(value)) {
       error = message;
     }
   });
   return error;
 };
+
 export default {
   methods: {
     $validateFields(fields, validations) {
       let isValid = true;
-
       Object.keys(validations).forEach((key) => {
         validations[key].error = validator(fields[key], validations[key].rules);
         if (validations[key].error) {
@@ -49,11 +47,14 @@ export default {
       });
       return isValid;
     },
-    $clearValidationError(field) {
+    $clearValidationErrors() {
       if (!this.validations) {
         return;
       }
-      this.$set(this.validations[field], "error", "");
+      Object.keys(this.validations).forEach((key) => {
+        this.$set(this.validations[key], "error", "");
+      });
     },
   },
 };
+/* eslint-enable */

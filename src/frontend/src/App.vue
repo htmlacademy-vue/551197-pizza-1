@@ -16,13 +16,10 @@ export default {
   },
 
   created() {
-    // Note: check auth
     if (this.$jwt.getToken()) {
       console.log("have token");
       setAuth(this.$store);
     }
-    // Note: fetch initial data
-    // this.$store.dispatch("init");
   },
 };
 </script>

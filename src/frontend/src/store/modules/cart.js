@@ -1,11 +1,14 @@
-import Vue from "vue";
-import misc from "@/static/misc.json";
 import builder from "@/store/modules/builder";
+
+import { SET_ENTITY } from "../mutation-types";
+
+import { normalizeAdditionalItems } from "@/common/helpers.js";
 
 export default {
   namespaced: true,
+
   state: {
-    misc: misc,
+    misc: [],
     pizza: builder.state.pizzaForCart,
     totalPrice: 0,
   },
@@ -31,17 +34,6 @@ export default {
     },
   },
   mutations: {
-    setNewMisc(state) {
-      state.misc.forEach((el) => {
-        Vue.set(el, "count", 0);
-        Vue.set(
-          el,
-          "label",
-          el.image.replace(".svg", "").replace("/public/img/", "")
-        );
-      });
-      return state.misc;
-    },
     setCountMisc(state, item) {
       state.misc.forEach((el) => {
         if (item.label === el.label) {
@@ -61,5 +53,15 @@ export default {
       state.totalPrice = value;
     },
   },
-  actions: {},
+  actions: {
+    async getMiscData({ commit }) {
+      const data = await this.$api.misc.query();
+      const items = data.map((item) => normalizeAdditionalItems(item));
+      commit(
+        SET_ENTITY,
+        { module: "cart", entity: "misc", value: items },
+        { root: true }
+      );
+    },
+  },
 };

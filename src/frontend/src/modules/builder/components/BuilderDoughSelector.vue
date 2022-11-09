@@ -25,20 +25,26 @@
 <script>
 import RadioButton from "@/common/components/RadioButton";
 
-import { mapState, mapGetters, mapMutations } from "vuex";
+import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
 
 export default {
   name: "BuilderDoughtSelector",
   components: {
     RadioButton,
   },
-
+  created() {
+    this.getDoughData();
+    this.getSaucesData();
+  },
   computed: {
     ...mapGetters("builder", ["labeledDough"]),
     ...mapState("builder", ["currentDough"]),
   },
+
   methods: {
     ...mapMutations("builder", ["setCurrentDough"]),
+    ...mapActions("builder", ["getDoughData"]),
+    ...mapActions("builder", ["getSaucesData"]),
 
     getDoughPizza(name) {
       switch (name) {

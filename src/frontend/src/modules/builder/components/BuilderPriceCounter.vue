@@ -21,21 +21,24 @@ export default {
 
     savePizzaSettings() {
       let pizzaState = this.$store.state.builder;
+      var currentPizzaIngredientsNames = [];
       var currentPizzaIngredients = [];
       for (let i = 0; i < pizzaState.ingredientsItems.length; i++) {
         if (pizzaState.ingredientsItems[i].count > 0) {
-          currentPizzaIngredients.push(
+          currentPizzaIngredients.push(pizzaState.ingredientsItems[i]);
+          currentPizzaIngredientsNames.push(
             " " + pizzaState.ingredientsItems[i].name.toLowerCase()
           );
         }
       }
 
       let objectPizza = {
+        ingredients: currentPizzaIngredients,
         label: pizzaState.namePizza,
         dough: pizzaState.currentDough,
         sauce: pizzaState.currentSauce,
         size: pizzaState.currentSize,
-        description: ` ${pizzaState.currentSize.name.toLowerCase()} Тесто: ${pizzaState.currentDough.name.toLowerCase()} Соус: ${pizzaState.currentSauce.name.toLowerCase()} Начинка:${currentPizzaIngredients}`,
+        description: ` ${pizzaState.currentSize.name.toLowerCase()} Тесто: ${pizzaState.currentDough.name.toLowerCase()} Соус: ${pizzaState.currentSauce.name.toLowerCase()} Начинка:${currentPizzaIngredientsNames}`,
         price: this.getPrice,
         count: 1,
       };
