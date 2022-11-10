@@ -1,8 +1,8 @@
 import builder from "@/store/modules/builder";
 
-import { SET_ENTITY } from "../mutation-types";
+import { ADD_ENTITY, SET_ENTITY, UPDATE_ENTITY } from "../mutation-types";
 
-import { normalizeAdditionalItems } from "@/common/helpers.js";
+import { normalizeAdditionalItems, createUUIDv4 } from "@/common/helpers.js";
 
 export default {
   namespaced: true,
@@ -62,6 +62,22 @@ export default {
         { module: "cart", entity: "misc", value: items },
         { root: true }
       );
+    },
+
+    setPizzaSettingsForCart({ state, commit }, pizza) {
+      console.log(pizza.id);
+      const mutation = pizza.id ? UPDATE_ENTITY : ADD_ENTITY;
+
+      commit(
+        mutation,
+        {
+          module: "cart",
+          entity: "pizza",
+          value: pizza.id ? pizza : { ...pizza, id: createUUIDv4() },
+        },
+        { root: true }
+      );
+      console.log(state.pizza);
     },
   },
 };

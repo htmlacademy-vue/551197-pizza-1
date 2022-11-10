@@ -54,7 +54,7 @@
 import ItemCounter from "@/common/components/ItemCounter";
 import SelectorItem from "@/common/components/SelectorItem";
 
-import { mapGetters, mapMutations, mapState, mapActions } from "vuex";
+import { mapGetters, mapMutations, mapState } from "vuex";
 
 export default {
   name: "BuulderIngredientSelector",
@@ -63,9 +63,6 @@ export default {
     SelectorItem,
   },
 
-  created() {
-    this.getIngredientsData();
-  },
   computed: {
     ...mapState("builder", ["currentSauce"]),
     ...mapState("builder", ["ingredientsItems"]),
@@ -75,7 +72,6 @@ export default {
     ...mapMutations("builder", ["setCurrentSauce"]),
     ...mapMutations("builder", ["setNewIngredients"]),
     ...mapMutations("builder", ["setCountIngredients"]),
-    ...mapActions("builder", ["getIngredientsData"]),
 
     draggable(item) {
       if (item.count < 3) {

@@ -9,7 +9,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { mapMutations } from "vuex";
+import { mapActions } from "vuex";
 
 export default {
   name: "BuilderPriceCounter",
@@ -17,7 +17,14 @@ export default {
     ...mapGetters("builder", ["getPrice"]),
   },
   methods: {
-    ...mapMutations("builder", ["setPizzaSettingsForCart"]),
+    ...mapActions("cart", ["setPizzaSettingsForCart"]),
+    ...mapActions("builder", [
+      "resetBuilderState",
+      "getDoughData",
+      "getSaucesData",
+      "getSizesData",
+      "getIngredientsData",
+    ]),
 
     savePizzaSettings() {
       let pizzaState = this.$store.state.builder;
@@ -41,9 +48,17 @@ export default {
         description: ` ${pizzaState.currentSize.name.toLowerCase()} Тесто: ${pizzaState.currentDough.name.toLowerCase()} Соус: ${pizzaState.currentSauce.name.toLowerCase()} Начинка:${currentPizzaIngredientsNames}`,
         price: this.getPrice,
         count: 1,
+        id: pizzaState.id,
       };
 
       this.setPizzaSettingsForCart(objectPizza);
+      this.resetBuilderState();
+
+      this.getDoughData();
+      this.getSaucesData();
+      this.getSizesData();
+      this.getIngredientsData();
+
       this.$router.push("Cart");
     },
   },
