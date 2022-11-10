@@ -15,7 +15,7 @@
         </div>
       </form>
 
-      <form @submit="repeatOrder()">
+      <form @submit="repeatOrder(order)">
         <div class="order__button">
           <button type="submit" class="button">Повторить</button>
         </div>
@@ -96,6 +96,7 @@ export default {
 
   methods: {
     ...mapActions("orders", ["deleteOrder"]),
+    ...mapActions("orders", ["createOrder"]),
     ...mapActions("builder", ["getIngredientsData"]),
 
     getOrderPrice(pizzas, misc) {
@@ -124,7 +125,35 @@ export default {
       return (doughPrice + saucePrice + ingredientsPrice) * multiplier;
     },
 
-    repeatOrder() {},
+    async repeatOrder(order) {
+      console.log(order);
+      const deleteIdPizzas = order.orderPizzas.map((el) => {
+        delete el.id;
+        delete el.orderId;
+        el.ingredients.map((item) => {
+          delete item.pizzaId;
+          delete item.id;
+          return item;
+        });
+        return el;
+      });
+
+      const deleteIdMisc = order.orderMisc.map((el) => {
+        delete el.id;
+        delete el.orderId;
+        return el;
+      });
+
+      const repetOrderItem = {
+        address: order.addressId,
+        phone: order.phone,
+        userId: order.userId,
+        pizzas: deleteIdPizzas,
+        misc: deleteIdMisc,
+      };
+
+      await this.createOrder(repetOrderItem);
+    },
   },
 };
 </script>
