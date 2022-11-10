@@ -27,7 +27,7 @@ import misc from "@/static/misc.json";
 import pizza from "@/static/pizza.json";
 import user from "@/static/user.json";
 
-import { mapMutations } from "vuex";
+import { mapMutations, mapActions } from "vuex";
 
 export default {
   components: {
@@ -35,6 +35,11 @@ export default {
     BuilderSizeSelector,
     BuilderIngredientsSelector,
     BuilderPizzaView,
+  },
+  mounted() {
+    this.getIngredientsData();
+    this.getDoughData();
+    this.getSaucesData();
   },
   data() {
     return {
@@ -48,6 +53,9 @@ export default {
   },
   methods: {
     ...mapMutations("builder", ["setNewIngredients"]),
+    ...mapActions("builder", ["getIngredientsData"]),
+    ...mapActions("builder", ["getDoughData"]),
+    ...mapActions("builder", ["getSaucesData"]),
 
     dropIngredients(drop) {
       this.$store.state.builder.ingredientsItems.forEach((el) => {

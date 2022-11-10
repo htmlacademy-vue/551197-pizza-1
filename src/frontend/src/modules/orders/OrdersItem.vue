@@ -145,13 +145,12 @@ export default {
       });
 
       const repetOrderItem = {
-        address: order.addressId,
+        address: order.orderAddress,
         phone: order.phone,
         userId: order.userId,
         pizzas: deleteIdPizzas,
         misc: deleteIdMisc,
       };
-
       await this.createOrder(repetOrderItem);
     },
   },

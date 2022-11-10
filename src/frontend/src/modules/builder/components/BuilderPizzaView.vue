@@ -6,6 +6,7 @@
         type="text"
         name="pizza_name"
         placeholder="Введите название пиццы"
+        :value="namePizza"
         @change="setName($event.target.value)"
       />
     </label>
@@ -68,7 +69,12 @@ export default {
     };
   },
   computed: {
-    ...mapState("builder", ["currentDough", "currentSauce", "currentSize"]),
+    ...mapState("builder", [
+      "currentDough",
+      "currentSauce",
+      "currentSize",
+      "namePizza",
+    ]),
     ...mapState("builder", ["ingredientsItems"]),
     ...mapState("builder", ["ingredientsCounts"]),
 
