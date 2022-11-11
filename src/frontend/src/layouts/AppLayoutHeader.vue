@@ -15,7 +15,7 @@
       <div class="header__cart">
         <router-link to="/cart">{{ getTotalPrice }} ₽</router-link>
       </div>
-      <div class="header__user">
+      <div class="header__user" style="display: flex">
         <router-link v-if="user" to="/profile">
           <picture>
             <source type="image/webp" :srcset="getWebPSrc" />
@@ -35,7 +35,6 @@
           key="logout-link"
           href="#"
           class="header__logout"
-          style="text-align: center"
           @click="$logout"
         >
           <span>Выйти</span>

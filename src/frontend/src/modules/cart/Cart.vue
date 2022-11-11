@@ -228,10 +228,7 @@ export default {
         pizzas: this.normalizePizzas(),
         misc: this.normalizeMisc(),
       };
-      console.log(order);
       await this.createOrder(order);
-
-      console.log("order created!");
       this.isModal = true;
     },
 

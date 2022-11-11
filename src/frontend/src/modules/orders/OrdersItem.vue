@@ -126,7 +126,6 @@ export default {
     },
 
     async repeatOrder(order) {
-      console.log(order);
       const deleteIdPizzas = order.orderPizzas.map((el) => {
         delete el.id;
         delete el.orderId;

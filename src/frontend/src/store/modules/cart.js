@@ -65,7 +65,6 @@ export default {
     },
 
     setPizzaSettingsForCart({ state, commit }, pizza) {
-      console.log(pizza.id);
       const mutation = pizza.id ? UPDATE_ENTITY : ADD_ENTITY;
 
       commit(
@@ -77,7 +76,6 @@ export default {
         },
         { root: true }
       );
-      console.log(state.pizza);
     },
   },
 };

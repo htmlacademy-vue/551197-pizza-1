@@ -1,7 +1,12 @@
 <template>
   <div class="content__result">
     <p>Итого: {{ getPrice }} ₽</p>
-    <button type="button" class="button" @click="savePizzaSettings()">
+    <button
+      :disabled="isDisabled"
+      type="button"
+      class="button"
+      @click="savePizzaSettings()"
+    >
       Готовьте!
     </button>
   </div>
@@ -10,11 +15,22 @@
 <script>
 import { mapGetters } from "vuex";
 import { mapActions } from "vuex";
+import { mapState } from "vuex";
 
 export default {
   name: "BuilderPriceCounter",
   computed: {
     ...mapGetters("builder", ["getPrice"]),
+    ...mapState("builder", ["namePizza", "ingredientsItems"]),
+
+    isDisabled() {
+      const isSomeChecked = (el) => el.count !== 0;
+      const isCheckedIngredients = this.ingredientsItems.some(isSomeChecked);
+
+      if (isCheckedIngredients && this.namePizza) {
+        return false;
+      } else return true;
+    },
   },
   methods: {
     ...mapActions("cart", ["setPizzaSettingsForCart"]),

@@ -18,7 +18,6 @@ export default {
 
   created() {
     if (this.$jwt.getToken()) {
-      console.log("have token");
       setAuth(this.$store);
     }
   },

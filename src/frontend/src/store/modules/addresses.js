@@ -14,20 +14,8 @@ export default {
   getters: {},
 
   actions: {
-    // async saveAddress(context, payload) {
-    //   console.log(context);
-    //   console.log(payload);
-    // },
-    // async saveAddress({ commit }, payload) {
-    //   commit(
-    //     SET_ENTITY,
-    //     { module: "addresses", entity: "addresses", value: payload },
-    //     { root: true }
-    //   );
-    // },
     async getAddresses({ commit }) {
       const data = await this.$api.addresses.query();
-      console.log(data);
       commit(
         SET_ENTITY,
         { module: "addresses", entity: "addresses", value: data },
@@ -45,7 +33,7 @@ export default {
         },
         { root: true }
       );
-      console.log("deleted");
+      // console.log("deleted");
     },
 
     async editAddress({ commit }, address) {
@@ -59,7 +47,7 @@ export default {
         },
         { root: true }
       );
-      console.log("edited");
+      // console.log("edited");
     },
 
     async addAddress({ commit }, address) {
