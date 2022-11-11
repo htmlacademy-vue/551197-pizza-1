@@ -2,14 +2,11 @@ import { SET_ENTITY } from "../mutation-types";
 import { EDIT_PIZZA } from "../mutation-types";
 import { RESET_BUILDER_STATE } from "../mutation-types";
 
-import { normalizeItems, normalizeIngredientsItems } from "@/common/helpers.js";
-
-const isEmpty = (obj) => {
-  for (let key in obj) {
-    return false;
-  }
-  return true;
-};
+import {
+  normalizeItems,
+  normalizeIngredientsItems,
+  isEmpty,
+} from "@/common/helpers.js";
 
 const initialState = () => ({
   id: null,
@@ -22,8 +19,6 @@ const initialState = () => ({
   currentSauce: {},
   currentSize: {},
   pizzaPrice: 0,
-
-  pizzaForCart: [],
 });
 
 export default {

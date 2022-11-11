@@ -70,7 +70,6 @@ export default {
   },
   methods: {
     ...mapMutations("builder", ["setCurrentSauce"]),
-    ...mapMutations("builder", ["setNewIngredients"]),
     ...mapMutations("builder", ["setCountIngredients"]),
 
     draggable(item) {

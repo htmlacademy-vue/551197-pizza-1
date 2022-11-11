@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapState } from "vuex";
 import { getItemById } from "@/common/helpers";
 export default {
   name: "PizzaItem",
@@ -29,12 +29,7 @@ export default {
       required: true,
     },
   },
-  created() {
-    this.getDoughData();
-    this.getSaucesData();
-    this.getSizesData();
-    this.getIngredientsData();
-  },
+
   computed: {
     ...mapState("builder", ["dough", "sauces", "sizes", "ingredientsItems"]),
 
@@ -58,13 +53,6 @@ export default {
       });
       return names.map((el) => el.toLowerCase()).join(", ");
     },
-  },
-
-  methods: {
-    ...mapActions("builder", ["getDoughData"]),
-    ...mapActions("builder", ["getSaucesData"]),
-    ...mapActions("builder", ["getSizesData"]),
-    ...mapActions("builder", ["getIngredientsData"]),
   },
 };
 </script>

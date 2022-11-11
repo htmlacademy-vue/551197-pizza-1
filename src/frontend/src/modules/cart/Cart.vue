@@ -71,7 +71,10 @@
             </ul>
           </div>
 
-          <CartOrderForm @setAddress="setAddress"></CartOrderForm>
+          <CartOrderForm
+            @setAddress="setAddress"
+            :reorderAddressId="addressId"
+          ></CartOrderForm>
         </div>
       </main>
 
@@ -134,9 +137,10 @@ export default {
     };
   },
 
-  created() {
-    this.getMiscData();
+  async mounted() {
+    this.addressId = this.$route.params.addressId;
   },
+
   computed: {
     ...mapGetters("cart", ["labeledMisc"]),
     ...mapGetters("cart", ["getPizza"]),
@@ -159,11 +163,9 @@ export default {
     ...mapMutations("cart", ["setCountMisc"]),
     ...mapMutations("cart", ["setCountPizza"]),
     ...mapMutations("cart", ["setTotalPrice"]),
-    ...mapActions("cart", ["getMiscData"]),
-    ...mapActions("addresses", ["getAddresses"]),
     ...mapActions("orders", ["createOrder"]),
-
     ...mapActions("builder", ["editPizza"]),
+    ...mapActions("cart", ["resetCartState"]),
 
     itemCountMisc(label, count) {
       let item = { label: label, count: count };
@@ -208,6 +210,10 @@ export default {
         };
       });
     },
+    async setPizzaToBuilder(pizza) {
+      this.editPizza(pizza);
+      await this.$router.push({ name: "IndexHome" });
+    },
 
     async saveOrder() {
       if (
@@ -222,20 +228,21 @@ export default {
         return;
       }
       const order = {
-        userId: this.user.id,
+        userId: this.user ? this.user.id : null,
         phone: this.phone,
         address: this.address,
         pizzas: this.normalizePizzas(),
         misc: this.normalizeMisc(),
       };
+
       await this.createOrder(order);
+
       this.isModal = true;
     },
+  },
 
-    async setPizzaToBuilder(pizza) {
-      this.editPizza(pizza);
-      await this.$router.push({ name: "IndexHome" });
-    },
+  destroyed() {
+    this.resetCartState();
   },
 };
 </script>

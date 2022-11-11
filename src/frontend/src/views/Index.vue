@@ -23,8 +23,7 @@ import BuilderDoughSelector from "@/modules/builder/components/BuilderDoughSelec
 import BuilderSizeSelector from "@/modules/builder/components/BuilderSizeSelector";
 import BuilderIngredientsSelector from "@/modules/builder/components/BuilderIngredientsSelector";
 import BuilderPizzaView from "@/modules/builder/components/BuilderPizzaView";
-
-// import { mapMutations, mapActions } from "vuex";
+import { mapActions } from "vuex";
 
 export default {
   components: {
@@ -34,7 +33,19 @@ export default {
     BuilderPizzaView,
   },
 
+  created() {
+    this.getIngredientsData();
+    this.getDoughData();
+    this.getSaucesData();
+    this.getMiscData();
+  },
+
   methods: {
+    ...mapActions("builder", ["getIngredientsData"]),
+    ...mapActions("builder", ["getDoughData"]),
+    ...mapActions("builder", ["getSaucesData"]),
+    ...mapActions("cart", ["getMiscData"]),
+
     dropIngredients(drop) {
       this.$store.state.builder.ingredientsItems.forEach((el) => {
         if (el.label == drop) {

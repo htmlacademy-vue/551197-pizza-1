@@ -22,6 +22,7 @@ export default {
   computed: {
     ...mapGetters("builder", ["getPrice"]),
     ...mapState("builder", ["namePizza", "ingredientsItems"]),
+    ...mapState("cart", ["misc"]),
 
     isDisabled() {
       const isSomeChecked = (el) => el.count !== 0;
@@ -34,6 +35,9 @@ export default {
   },
   methods: {
     ...mapActions("cart", ["setPizzaSettingsForCart"]),
+
+    ...mapActions("cart", ["changeMiscItemQuantity"]),
+
     ...mapActions("builder", [
       "resetBuilderState",
       "getDoughData",
@@ -68,12 +72,17 @@ export default {
       };
 
       this.setPizzaSettingsForCart(objectPizza);
+
       this.resetBuilderState();
 
       this.getDoughData();
       this.getSaucesData();
       this.getSizesData();
       this.getIngredientsData();
+
+      this.misc.forEach((misc) => {
+        this.changeMiscItemQuantity({ ...misc, quantity: 0 });
+      });
 
       this.$router.push("Cart");
     },

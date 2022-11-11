@@ -9,7 +9,6 @@
 <script>
 import AppLayout from "./layouts/AppLayout.vue";
 import { setAuth } from "./common/helpers";
-import { mapActions } from "vuex";
 
 export default {
   components: {
@@ -20,17 +19,6 @@ export default {
     if (this.$jwt.getToken()) {
       setAuth(this.$store);
     }
-  },
-  mounted() {
-    this.getIngredientsData();
-    this.getDoughData();
-    this.getSaucesData();
-  },
-
-  methods: {
-    ...mapActions("builder", ["getIngredientsData"]),
-    ...mapActions("builder", ["getDoughData"]),
-    ...mapActions("builder", ["getSaucesData"]),
   },
 };
 </script>

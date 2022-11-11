@@ -1,17 +1,18 @@
-import builder from "@/store/modules/builder";
-
 import { ADD_ENTITY, SET_ENTITY, UPDATE_ENTITY } from "../mutation-types";
+import { RESET_CART_STATE } from "../mutation-types";
 
 import { normalizeAdditionalItems, createUUIDv4 } from "@/common/helpers.js";
+
+const initialState = () => ({
+  misc: [],
+  pizza: [],
+  totalPrice: 0,
+});
 
 export default {
   namespaced: true,
 
-  state: {
-    misc: [],
-    pizza: builder.state.pizzaForCart,
-    totalPrice: 0,
-  },
+  state: initialState(),
   getters: {
     getPizza(state) {
       return state.pizza;
@@ -52,8 +53,15 @@ export default {
     setTotalPrice(state, value) {
       state.totalPrice = value;
     },
+    [RESET_CART_STATE](state) {
+      Object.assign(state, initialState());
+    },
   },
   actions: {
+    resetCartState({ commit }) {
+      commit(RESET_CART_STATE);
+    },
+
     async getMiscData({ commit }) {
       const data = await this.$api.misc.query();
       const items = data.map((item) => normalizeAdditionalItems(item));
@@ -64,7 +72,7 @@ export default {
       );
     },
 
-    setPizzaSettingsForCart({ state, commit }, pizza) {
+    setPizzaSettingsForCart({ commit }, pizza) {
       const mutation = pizza.id ? UPDATE_ENTITY : ADD_ENTITY;
 
       commit(
@@ -73,6 +81,17 @@ export default {
           module: "cart",
           entity: "pizza",
           value: pizza.id ? pizza : { ...pizza, id: createUUIDv4() },
+        },
+        { root: true }
+      );
+    },
+    changeMiscItemQuantity({ commit }, item) {
+      commit(
+        UPDATE_ENTITY,
+        {
+          module: "cart",
+          entity: "misc",
+          value: item,
         },
         { root: true }
       );

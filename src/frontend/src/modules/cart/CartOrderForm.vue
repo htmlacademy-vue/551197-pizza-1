@@ -82,6 +82,12 @@ import { validator } from "@/common/mixins";
 export default {
   name: "CartOrderForm",
   mixins: [validator],
+  props: {
+    reorderAddressId: {
+      type: Number,
+      default: null,
+    },
+  },
 
   data() {
     return {
@@ -130,6 +136,10 @@ export default {
     if (this.user !== null) {
       this.phone = this.user.phone;
       await this.getAddresses();
+    }
+    if (this.reorderAddressId !== null) {
+      document.querySelector(".select").value = this.reorderAddressId;
+      this.changeAddress(this.reorderAddressId);
     }
   },
 

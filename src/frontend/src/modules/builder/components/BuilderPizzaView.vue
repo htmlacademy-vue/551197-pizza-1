@@ -69,14 +69,8 @@ export default {
     };
   },
   computed: {
-    ...mapState("builder", [
-      "currentDough",
-      "currentSauce",
-      "currentSize",
-      "namePizza",
-    ]),
+    ...mapState("builder", ["currentDough", "currentSauce", "namePizza"]),
     ...mapState("builder", ["ingredientsItems"]),
-    ...mapState("builder", ["ingredientsCounts"]),
 
     viewIngredients: function () {
       var nameIngredients = [];

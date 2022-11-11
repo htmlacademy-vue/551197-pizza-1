@@ -56,3 +56,10 @@ export const createUUIDv4 = () => {
     return v.toString(16);
   });
 };
+
+export const isEmpty = (obj) => {
+  for (let key in obj) {
+    return false;
+  }
+  return true;
+};

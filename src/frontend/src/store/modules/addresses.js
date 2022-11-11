@@ -33,7 +33,6 @@ export default {
         },
         { root: true }
       );
-      // console.log("deleted");
     },
 
     async editAddress({ commit }, address) {
@@ -47,7 +46,6 @@ export default {
         },
         { root: true }
       );
-      // console.log("edited");
     },
 
     async addAddress({ commit }, address) {

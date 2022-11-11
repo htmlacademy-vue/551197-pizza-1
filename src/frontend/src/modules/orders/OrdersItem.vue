@@ -15,11 +15,9 @@
         </div>
       </form>
 
-      <form @submit="repeatOrder(order)">
-        <div class="order__button">
-          <button type="submit" class="button">Повторить</button>
-        </div>
-      </form>
+      <div class="order__button">
+        <button @click="repeatOrder()" class="button">Повторить</button>
+      </div>
     </div>
 
     <ul class="order__list">
@@ -62,9 +60,9 @@ export default {
     },
   },
 
-  created() {
-    this.getIngredientsData();
-  },
+  // created() {
+  // this.getIngredientsData();
+  // },
 
   computed: {
     ...mapState("cart", ["misc"]),
@@ -97,7 +95,19 @@ export default {
   methods: {
     ...mapActions("orders", ["deleteOrder"]),
     ...mapActions("orders", ["createOrder"]),
-    ...mapActions("builder", ["getIngredientsData"]),
+    // ...mapActions("builder", ["getIngredientsData"]),
+
+    ...mapActions("cart", ["setPizzaSettingsForCart"]),
+    ...mapActions("cart", ["changeMiscItemQuantity"]),
+
+    // normalizeMisc() {
+    //   return this.misc.map((item) => {
+    //     return {
+    //       miscId: item.id,
+    //       quantity: item.count,
+    //     };
+    //   });
+    // },
 
     getOrderPrice(pizzas, misc) {
       const pizzaPrices = pizzas.map((pizza) => pizza.price * pizza.quantity);
@@ -125,32 +135,51 @@ export default {
       return (doughPrice + saucePrice + ingredientsPrice) * multiplier;
     },
 
-    async repeatOrder(order) {
-      const deleteIdPizzas = order.orderPizzas.map((el) => {
-        delete el.id;
-        delete el.orderId;
-        el.ingredients.map((item) => {
-          delete item.pizzaId;
-          delete item.id;
-          return item;
+    async repeatOrder() {
+      this.pizzas.forEach((pizza) => {
+        let pizzaState = this.$store.state.builder;
+        var currentPizzaIngredientsNames = [];
+
+        const currentPizzaIngredients = pizza.ingredients.map((item) => {
+          return {
+            ...getItemById(pizzaState.ingredientsItems, item.ingredientId),
+            count: item.quantity,
+          };
         });
-        return el;
+
+        let objectPizza = {
+          ingredients: currentPizzaIngredients,
+          label: pizza.name,
+          dough: getItemById(pizzaState.dough, pizza.doughId),
+          sauce: getItemById(pizzaState.sauces, pizza.sauceId),
+          size: getItemById(pizzaState.sizes, pizza.sizeId),
+          description: ` ${getItemById(
+            pizzaState.sizes,
+            pizza.sizeId
+          ).name.toLowerCase()} Тесто: ${getItemById(
+            pizzaState.dough,
+            pizza.doughId
+          ).name.toLowerCase()} Соус: ${getItemById(
+            pizzaState.sauces,
+            pizza.sauceId
+          ).name.toLowerCase()} Начинка:${currentPizzaIngredientsNames}`,
+          price: pizza.price,
+          count: pizza.quantity,
+        };
+
+        this.setPizzaSettingsForCart({ ...objectPizza, id: null });
       });
 
-      const deleteIdMisc = order.orderMisc.map((el) => {
-        delete el.id;
-        delete el.orderId;
-        return el;
+      this.additionals.forEach((misc) => {
+        this.changeMiscItemQuantity(misc);
       });
 
-      const repetOrderItem = {
-        address: order.orderAddress,
-        phone: order.phone,
-        userId: order.userId,
-        pizzas: deleteIdPizzas,
-        misc: deleteIdMisc,
-      };
-      await this.createOrder(repetOrderItem);
+      this.$router.push({
+        name: "Cart",
+        params: {
+          addressId: this.order.addressId ? this.order.addressId : null,
+        },
+      });
     },
   },
 };
