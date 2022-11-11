@@ -23,7 +23,7 @@
 
       <label class="cart-form__phone input input--big-label">
         <span>Контактный телефон:</span>
-        <input
+        <AppInput
           v-model="phone"
           type="text"
           name="tel"
@@ -38,10 +38,11 @@
         <div class="cart-form__input">
           <label class="input">
             <span>Улица*</span>
-            <input
+            <AppInput
               v-model="street"
               type="text"
               name="street"
+              :error-text="validations.street.error"
               @change="setOrderAddress"
             />
           </label>
@@ -50,10 +51,11 @@
         <div class="cart-form__input cart-form__input--small">
           <label class="input">
             <span>Дом*</span>
-            <input
+            <AppInput
               v-model="building"
               type="text"
               name="building"
+              :error-text="validations.building.error"
               @change="setOrderAddress"
             />
           </label>
@@ -62,7 +64,7 @@
         <div class="cart-form__input cart-form__input--small">
           <label class="input">
             <span>Квартира</span>
-            <input
+            <AppInput
               v-model="flat"
               type="text"
               name="flat"
@@ -76,12 +78,15 @@
 </template>
 
 <script>
+import AppInput from "@/common/components/AppInput";
 import { mapActions, mapState } from "vuex";
 import { validator } from "@/common/mixins";
 
 export default {
   name: "CartOrderForm",
+  components: { AppInput },
   mixins: [validator],
+
   props: {
     reorderAddressId: {
       type: Number,

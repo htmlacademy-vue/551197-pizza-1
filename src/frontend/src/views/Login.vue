@@ -10,12 +10,12 @@
       <div class="sign-form__input">
         <label class="input">
           <span>E-mail</span>
-          <input
+          <AppInput
             ref="email"
             v-model="email"
+            type="email"
             name="email"
             placeholder="example@mail.ru"
-            autocomplete="off"
             :error-text="validations.email.error"
           />
         </label>
@@ -24,11 +24,11 @@
       <div class="sign-form__input">
         <label class="input">
           <span>Пароль</span>
-          <input
+          <AppInput
             v-model="password"
+            type="password"
             name="pass"
             placeholder="***********"
-            autocomplete="off"
             :error-text="validations.password.error"
           />
         </label>
@@ -41,10 +41,12 @@
 <script>
 import validator from "@/common/mixins/validator";
 import { mapActions } from "vuex";
+import AppInput from "@/common/components/AppInput";
 
 export default {
   name: "Login",
   mixins: [validator],
+  components: { AppInput },
   data() {
     return {
       email: "",
@@ -71,7 +73,7 @@ export default {
     },
   },
   mounted() {
-    this.$refs.email.focus();
+    this.$refs.email.$refs.input.focus();
   },
   methods: {
     ...mapActions("auth", ["login"]),
