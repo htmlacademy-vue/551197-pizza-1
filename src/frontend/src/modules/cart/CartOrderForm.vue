@@ -7,6 +7,7 @@
         <select
           name="test"
           class="select"
+          v-model="select"
           @change="changeAddress($event.target.value)"
         >
           <option value="pickup">Заберу сам</option>
@@ -97,6 +98,7 @@ export default {
   data() {
     return {
       deliveryOption: "pickup",
+      select: "pickup",
       addressId: null,
       phone: "",
       street: "",
@@ -143,7 +145,7 @@ export default {
       await this.getAddresses();
     }
     if (this.reorderAddressId !== null) {
-      document.querySelector(".select").value = this.reorderAddressId;
+      this.select = this.reorderAddressId;
       this.changeAddress(this.reorderAddressId);
     }
   },

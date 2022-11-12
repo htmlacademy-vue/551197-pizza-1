@@ -139,7 +139,7 @@ export default {
     };
   },
 
-  async mounted() {
+  mounted() {
     this.addressId = this.$route.params.addressId;
   },
 
