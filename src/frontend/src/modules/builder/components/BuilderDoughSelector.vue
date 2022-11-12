@@ -37,6 +37,7 @@ export default {
     ...mapGetters("builder", ["labeledDough"]),
     ...mapState("builder", ["currentDough"]),
   },
+
   methods: {
     ...mapMutations("builder", ["setCurrentDough"]),
 

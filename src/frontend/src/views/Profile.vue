@@ -8,123 +8,65 @@
 
         <div class="user">
           <picture>
-            <source
-              type="image/webp"
-              srcset="
-                @/assets/img/users/user5@2x.webp 1x,
-                @/assets/img/users/user5@4x.webp 2x
-              "
-            />
+            <source type="image/webp" :srcset="getWebPSrc" />
             <img
-              src="@/assets/img/users/user5@2x.jpg"
-              srcset="@/assets/img/users/user5@4x.jpg"
+              :src="user.avatar"
+              :srcset="getSrc"
               alt="Василий Ложкин"
               width="72"
               height="72"
             />
           </picture>
           <div class="user__name">
-            <span>Василий Ложкин</span>
+            <span>{{ user.name }}</span>
           </div>
-          <p class="user__phone">
-            Контактный телефон: <span>+7 999-999-99-99</span>
+
+          <p class="user__phone" style="margin-left: 10px">
+            Контактный телефон: <span>{{ user.phone }}</span>
           </p>
         </div>
 
-        <div class="layout__address">
-          <div class="sheet address-form">
+        <div
+          v-for="address in addresses"
+          :key="address.id"
+          class="layout__address"
+        >
+          <ProfileAddressForm
+            v-if="address.id === editableAddressId"
+            :address="address"
+            :user="user"
+          />
+
+          <div v-else class="sheet address-form">
             <div class="address-form__header">
-              <b>Адрес №1. Тест</b>
+              <b>Адрес №{{ address.id }}. {{ address.name }}</b>
               <div class="address-form__edit">
-                <button type="button" class="icon">
+                <button
+                  type="button"
+                  class="icon"
+                  @click="openFormToEdit(address.id)"
+                >
                   <span class="visually-hidden">Изменить адрес</span>
                 </button>
               </div>
             </div>
-            <p>Невский пр., д. 22, кв. 46</p>
-            <small>Позвоните, пожалуйста, от проходной</small>
+            <p>
+              ул. {{ address.street }}, д. {{ address.building }}, кв.
+              {{ address.flat }}
+            </p>
+            <small>{{ address.comment }}</small>
           </div>
         </div>
 
-        <div class="layout__address">
-          <form
-            action="test.html"
-            method="post"
-            class="address-form address-form--opened sheet"
-          >
-            <div class="address-form__header">
-              <b>Адрес №1</b>
-            </div>
-
-            <div class="address-form__wrapper">
-              <div class="address-form__input">
-                <label class="input">
-                  <span>Название адреса*</span>
-                  <input
-                    type="text"
-                    name="addr-name"
-                    placeholder="Введите название адреса"
-                    required
-                  />
-                </label>
-              </div>
-              <div
-                class="address-form__input address-form__input--size--normal"
-              >
-                <label class="input">
-                  <span>Улица*</span>
-                  <input
-                    type="text"
-                    name="addr-street"
-                    placeholder="Введите название улицы"
-                    required
-                  />
-                </label>
-              </div>
-              <div class="address-form__input address-form__input--size--small">
-                <label class="input">
-                  <span>Дом*</span>
-                  <input
-                    type="text"
-                    name="addr-house"
-                    placeholder="Введите номер дома"
-                    required
-                  />
-                </label>
-              </div>
-              <div class="address-form__input address-form__input--size--small">
-                <label class="input">
-                  <span>Квартира</span>
-                  <input
-                    type="text"
-                    name="addr-apartment"
-                    placeholder="Введите № квартиры"
-                  />
-                </label>
-              </div>
-              <div class="address-form__input">
-                <label class="input">
-                  <span>Комментарий</span>
-                  <input
-                    type="text"
-                    name="addr-comment"
-                    placeholder="Введите комментарий"
-                  />
-                </label>
-              </div>
-            </div>
-
-            <div class="address-form__buttons">
-              <button type="button" class="button button--transparent">
-                Удалить
-              </button>
-              <button type="submit" class="button">Сохранить</button>
-            </div>
-          </form>
+        <div v-if="newAddressForm">
+          <ProfileAddressForm :address="newAddressData" :user="user" />
         </div>
-
         <div class="layout__button">
-          <button type="button" class="button button--border">
+          <button
+            @click="openNewAddressForm"
+            type="button"
+            class="button button--border"
+          >
             Добавить новый адрес
           </button>
         </div>
@@ -134,7 +76,63 @@
 </template>
 
 <script>
-export default {};
+import { mapState } from "vuex";
+import { mapActions } from "vuex";
+import ProfileAddressForm from "../modules/profile/ProfileAddressForm";
+
+export default {
+  name: "Profile",
+  components: {
+    ProfileAddressForm,
+  },
+
+  data() {
+    return {
+      newAddressData: {
+        id: null,
+        name: "",
+        street: "",
+        building: "",
+        flat: "",
+        comment: "",
+      },
+      editableAddressId: null,
+      newAddressForm: false,
+    };
+  },
+
+  created() {
+    this.getAddresses();
+  },
+  computed: {
+    ...mapState("auth", ["user"]),
+    ...mapState("addresses", ["addresses"]),
+
+    getWebPSrc: function () {
+      return `${this.user.avatar.replace(
+        ".jpg",
+        "@2x.webp"
+      )} 1x, ${this.user.avatar.replace(".jpg", "@4x.webp")} 2x`;
+    },
+    getSrc: function () {
+      return `${this.user.avatar.replace(".jpg", "@4x")}.jpg`;
+    },
+  },
+
+  methods: {
+    ...mapActions("addresses", ["getAddresses"]),
+    ...mapActions("addresses", ["saveAddress"]),
+
+    openFormToEdit(id) {
+      this.newAddressForm = false;
+      this.editableAddressId = id;
+    },
+    openNewAddressForm() {
+      this.editableAddressId = null;
+      this.newAddressForm = true;
+    },
+  },
+};
 </script>
 
 <style lang="scss"></style>

@@ -1,14 +1,18 @@
-import Vue from "vue";
-import misc from "@/static/misc.json";
-import builder from "@/store/modules/builder";
+import { ADD_ENTITY, SET_ENTITY, UPDATE_ENTITY } from "../mutation-types";
+import { RESET_CART_STATE } from "../mutation-types";
+
+import { normalizeAdditionalItems, createUUIDv4 } from "@/common/helpers.js";
+
+const initialState = () => ({
+  misc: [],
+  pizza: [],
+  totalPrice: 0,
+});
 
 export default {
   namespaced: true,
-  state: {
-    misc: misc,
-    pizza: builder.state.pizzaForCart,
-    totalPrice: 0,
-  },
+
+  state: initialState(),
   getters: {
     getPizza(state) {
       return state.pizza;
@@ -31,17 +35,6 @@ export default {
     },
   },
   mutations: {
-    setNewMisc(state) {
-      state.misc.forEach((el) => {
-        Vue.set(el, "count", 0);
-        Vue.set(
-          el,
-          "label",
-          el.image.replace(".svg", "").replace("/public/img/", "")
-        );
-      });
-      return state.misc;
-    },
     setCountMisc(state, item) {
       state.misc.forEach((el) => {
         if (item.label === el.label) {
@@ -60,6 +53,48 @@ export default {
     setTotalPrice(state, value) {
       state.totalPrice = value;
     },
+    [RESET_CART_STATE](state) {
+      Object.assign(state, initialState());
+    },
   },
-  actions: {},
+  actions: {
+    resetCartState({ commit }) {
+      commit(RESET_CART_STATE);
+    },
+
+    async getMiscData({ commit }) {
+      const data = await this.$api.misc.query();
+      const items = data.map((item) => normalizeAdditionalItems(item));
+      commit(
+        SET_ENTITY,
+        { module: "cart", entity: "misc", value: items },
+        { root: true }
+      );
+    },
+
+    setPizzaSettingsForCart({ commit }, pizza) {
+      const mutation = pizza.id ? UPDATE_ENTITY : ADD_ENTITY;
+
+      commit(
+        mutation,
+        {
+          module: "cart",
+          entity: "pizza",
+          value: pizza.id ? pizza : { ...pizza, id: createUUIDv4() },
+        },
+        { root: true }
+      );
+    },
+    changeMiscItemQuantity({ commit }, item) {
+      commit(
+        UPDATE_ENTITY,
+        {
+          module: "cart",
+          entity: "misc",
+          value: item,
+        },
+        { root: true }
+      );
+    },
+  },
 };

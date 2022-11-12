@@ -24,15 +24,19 @@
 <script>
 import RadioButton from "@/common/components/RadioButton";
 
-import { mapState, mapMutations } from "vuex";
+import { mapState, mapMutations, mapActions } from "vuex";
 
 export default {
   components: { RadioButton },
+  created() {
+    this.getSizesData();
+  },
   computed: {
     ...mapState("builder", ["sizes", "currentSize"]),
   },
   methods: {
     ...mapMutations("builder", ["setCurrentSize"]),
+    ...mapActions("builder", ["getSizesData"]),
 
     changeSize(size) {
       this.setCurrentSize(size);

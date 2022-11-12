@@ -63,9 +63,6 @@ export default {
     SelectorItem,
   },
 
-  created() {
-    this.setNewIngredients();
-  },
   computed: {
     ...mapState("builder", ["currentSauce"]),
     ...mapState("builder", ["ingredientsItems"]),
@@ -73,7 +70,6 @@ export default {
   },
   methods: {
     ...mapMutations("builder", ["setCurrentSauce"]),
-    ...mapMutations("builder", ["setNewIngredients"]),
     ...mapMutations("builder", ["setCountIngredients"]),
 
     draggable(item) {

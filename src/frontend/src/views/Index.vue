@@ -23,11 +23,7 @@ import BuilderDoughSelector from "@/modules/builder/components/BuilderDoughSelec
 import BuilderSizeSelector from "@/modules/builder/components/BuilderSizeSelector";
 import BuilderIngredientsSelector from "@/modules/builder/components/BuilderIngredientsSelector";
 import BuilderPizzaView from "@/modules/builder/components/BuilderPizzaView";
-import misc from "@/static/misc.json";
-import pizza from "@/static/pizza.json";
-import user from "@/static/user.json";
-
-import { mapMutations } from "vuex";
+import { mapActions } from "vuex";
 
 export default {
   components: {
@@ -36,18 +32,19 @@ export default {
     BuilderIngredientsSelector,
     BuilderPizzaView,
   },
-  data() {
-    return {
-      misc: misc,
-      user: user,
-      sauces: this.addLabelSauce(pizza.sauces),
-      sizes: pizza.sizes,
-      currentSauce: pizza.sauces[0],
-      currentSize: pizza.sizes[0],
-    };
+
+  created() {
+    this.getIngredientsData();
+    this.getDoughData();
+    this.getSaucesData();
+    this.getMiscData();
   },
+
   methods: {
-    ...mapMutations("builder", ["setNewIngredients"]),
+    ...mapActions("builder", ["getIngredientsData"]),
+    ...mapActions("builder", ["getDoughData"]),
+    ...mapActions("builder", ["getSaucesData"]),
+    ...mapActions("cart", ["getMiscData"]),
 
     dropIngredients(drop) {
       this.$store.state.builder.ingredientsItems.forEach((el) => {
@@ -55,49 +52,6 @@ export default {
           el.count++;
         }
       });
-    },
-
-    getSizePizza(multiplier) {
-      switch (multiplier) {
-        case 1:
-          return "diameter__input--small";
-        case 2:
-          return "diameter__input--normal";
-        case 3:
-          return "diameter__input--big";
-        default:
-          alert("error get size");
-      }
-    },
-    getDoughPizza(name) {
-      switch (name) {
-        case "Тонкое":
-          return "dough__input--light";
-        case "Толстое":
-          return "dough__input--large";
-        default:
-          alert("error get dough");
-      }
-    },
-    addLabelIngredients(ingredients) {
-      ingredients.forEach((el) => {
-        el.count = 0;
-        el.label = el.image
-          .replace(".svg", "")
-          .replace("/public/img/filling/", "");
-      });
-      return ingredients;
-    },
-    addLabelSauce(sauces) {
-      sauces.forEach((el) => {
-        if (el.name == "Томатный") {
-          this.$set(el, "label", "tomato");
-        }
-        if (el.name == "Сливочный") {
-          this.$set(el, "label", "creamy");
-        }
-      });
-      return sauces;
     },
   },
 };

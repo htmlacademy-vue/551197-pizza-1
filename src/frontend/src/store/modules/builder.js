@@ -1,21 +1,29 @@
-import Vue from "vue";
-import pizza from "@/static/pizza.json";
+import { SET_ENTITY } from "../mutation-types";
+import { EDIT_PIZZA } from "../mutation-types";
+import { RESET_BUILDER_STATE } from "../mutation-types";
+
+import {
+  normalizeItems,
+  normalizeIngredientsItems,
+  isEmpty,
+} from "@/common/helpers.js";
+
+const initialState = () => ({
+  id: null,
+  namePizza: "",
+  dough: [],
+  sauces: [],
+  sizes: [],
+  ingredientsItems: [],
+  currentDough: {},
+  currentSauce: {},
+  currentSize: {},
+  pizzaPrice: 0,
+});
 
 export default {
   namespaced: true,
-  state: {
-    namePizza: "",
-    dough: pizza.dough,
-    sauces: pizza.sauces,
-    sizes: pizza.sizes,
-    ingredientsItems: pizza.ingredients,
-    currentDough: pizza.dough[0],
-    currentSauce: pizza.sauces[0],
-    currentSize: pizza.sizes[0],
-    pizzaPrice: 0,
-
-    pizzaForCart: [],
-  },
+  state: initialState(),
   getters: {
     getPrice(state) {
       var sumPrice = 0;
@@ -61,18 +69,6 @@ export default {
     },
   },
   mutations: {
-    setNewIngredients(state) {
-      state.ingredientsItems.forEach((el) => {
-        Vue.set(el, "count", 0);
-        Vue.set(
-          el,
-          "label",
-          el.image.replace(".svg", "").replace("/public/img/filling/", "")
-        );
-      });
-      return state.ingredientsItems;
-    },
-
     setCountIngredients(state, item) {
       state.ingredientsItems.map((el) => {
         if (item.label === el.label) {
@@ -94,10 +90,103 @@ export default {
     setCurrentPizzaName(state, value) {
       state.namePizza = value;
     },
+    [RESET_BUILDER_STATE](state) {
+      Object.assign(state, initialState());
+    },
 
-    setPizzaSettingsForCart(state, value) {
-      state.pizzaForCart.unshift(value);
+    [EDIT_PIZZA](state, newState) {
+      Object.assign(state, newState);
     },
   },
-  actions: {},
+  actions: {
+    resetBuilderState({ commit }) {
+      commit(RESET_BUILDER_STATE);
+    },
+    async getDoughData({ state, commit }) {
+      const data = await this.$api.builder.fetchDough();
+      const items = data.map((item) => normalizeItems(item));
+
+      commit(
+        SET_ENTITY,
+        { module: "builder", entity: "dough", value: items },
+        { root: true }
+      );
+      if (isEmpty(state.currentDough)) {
+        commit(
+          SET_ENTITY,
+          { module: "builder", entity: "currentDough", value: items[0] },
+          { root: true }
+        );
+      }
+    },
+    async getSaucesData({ state, commit }) {
+      const data = await this.$api.builder.fetchSauces();
+      const items = data.map((item) => normalizeItems(item));
+
+      commit(
+        SET_ENTITY,
+        { module: "builder", entity: "sauces", value: items },
+        { root: true }
+      );
+      if (isEmpty(state.currentSauce)) {
+        commit(
+          SET_ENTITY,
+          { module: "builder", entity: "currentSauce", value: items[0] },
+          { root: true }
+        );
+      }
+    },
+    async getSizesData({ state, commit }) {
+      const data = await this.$api.builder.fetchSizes();
+
+      commit(
+        SET_ENTITY,
+        { module: "builder", entity: "sizes", value: data },
+        { root: true }
+      );
+      if (isEmpty(state.currentSize)) {
+        commit(
+          SET_ENTITY,
+          { module: "builder", entity: "currentSize", value: data[0] },
+          { root: true }
+        );
+      }
+    },
+
+    async getIngredientsData({ commit }) {
+      const data = await this.$api.builder.fetchIngredients();
+      const items = data.map((item) => normalizeIngredientsItems(item));
+      commit(
+        SET_ENTITY,
+        { module: "builder", entity: "ingredientsItems", value: items },
+        { root: true }
+      );
+    },
+
+    editPizza({ state, commit }, pizza) {
+      const newState = {
+        namePizza: pizza.label,
+        currentDough: pizza.dough,
+        currentSauce: pizza.sauce,
+        currentSize: pizza.size,
+        pizzaPrice: pizza.price,
+        ingredientsItems: calcIngredients(
+          state.ingredientsItems,
+          pizza.ingredients
+        ),
+        id: pizza.id,
+      };
+      commit(EDIT_PIZZA, newState);
+    },
+  },
+};
+
+const calcIngredients = (ingredients, currentIngredients) => {
+  const arr = ingredients.map((y) =>
+    Object.assign(
+      y,
+      currentIngredients.find((x) => x.id === y.id)
+    )
+  );
+  return arr;
 };
