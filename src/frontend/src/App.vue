@@ -1,7 +1,13 @@
 <template>
   <div class="app">
     <AppLayout>
-      <router-view />
+      <transition
+        name="slide"
+        :appear="isAnimated"
+        enter-active-class="animate__animated animate__slideInRight"
+      >
+        <router-view />
+      </transition>
     </AppLayout>
   </div>
 </template>
@@ -19,6 +25,11 @@ export default {
     if (this.$jwt.getToken()) {
       setAuth(this.$store);
     }
+  },
+  computed: {
+    isAnimated() {
+      return this.$route.name !== "Login";
+    },
   },
 };
 </script>

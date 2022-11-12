@@ -78,7 +78,9 @@
         </div>
       </main>
 
-      <CartModal @close="closeModal" v-if="isModal" />
+      <transition name="popup">
+        <CartModal @close="closeModal" v-if="isModal" />
+      </transition>
 
       <section class="footer">
         <div class="footer__more">
@@ -246,3 +248,14 @@ export default {
   },
 };
 </script>
+
+<style scoped lang="scss">
+.popup-enter-active,
+.popup-leave-active {
+  transition: opacity 1s;
+}
+.popup-enter,
+.popup-leave-to {
+  opacity: 0;
+}
+</style>

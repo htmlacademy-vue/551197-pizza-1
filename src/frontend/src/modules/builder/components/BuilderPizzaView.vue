@@ -21,30 +21,35 @@
         :class="`pizza--foundation--${currentDough.label}-${currentSauce.label}`"
       >
         <div class="pizza__wrapper">
-          <template v-for="el in viewIngredients">
-            <div
-              :key="el.id"
-              :class="['pizza__filling', `pizza__filling--${el.label}`]"
-            />
-            <div
-              v-if="el.count > 1"
-              :key="el.id"
-              :class="[
-                'pizza__filling',
-                `pizza__filling--second`,
-                `pizza__filling--${el.label}`,
-              ]"
-            />
-            <div
-              v-if="el.count > 2"
-              :key="el.id"
-              :class="[
-                'pizza__filling',
-                `pizza__filling--third`,
-                `pizza__filling--${el.label}`,
-              ]"
-            />
-          </template>
+          <div v-for="el in viewIngredients" :key="el.id">
+            <transition name="fade" appear>
+              <div
+                v-if="el.count"
+                :class="['pizza__filling', `pizza__filling--${el.label}`]"
+              />
+            </transition>
+            <transition name="fade">
+              <div
+                v-if="el.count > 1"
+                :class="[
+                  'pizza__filling',
+                  `pizza__filling--second`,
+                  `pizza__filling--${el.label}`,
+                ]"
+              />
+            </transition>
+
+            <transition name="fade">
+              <div
+                v-if="el.count > 3"
+                :class="[
+                  'pizza__filling',
+                  `pizza__filling--third`,
+                  `pizza__filling--${el.label}`,
+                ]"
+              />
+            </transition>
+          </div>
         </div>
       </div>
     </div>
@@ -95,4 +100,13 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style scoped lang="scss">
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 1s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>
