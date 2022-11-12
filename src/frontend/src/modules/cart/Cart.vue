@@ -242,10 +242,6 @@ export default {
       this.isModal = true;
     },
   },
-
-  destroyed() {
-    this.resetCartState();
-  },
 };
 </script>
 

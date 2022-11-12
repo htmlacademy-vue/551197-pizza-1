@@ -25,9 +25,9 @@ export default {
 
   methods: {
     greatWait() {
-      if (this.user !== null) {
-        this.$router.push({ name: "Orders" });
-      } else this.$router.push({ name: "IndexHome" });
+      this.user
+        ? this.$router.push({ name: "Orders" })
+        : this.$router.push({ name: "IndexHome" });
     },
   },
 };

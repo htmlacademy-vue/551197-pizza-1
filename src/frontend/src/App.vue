@@ -15,6 +15,7 @@
 <script>
 import AppLayout from "./layouts/AppLayout.vue";
 import { setAuth } from "./common/helpers";
+import { mapActions } from "vuex";
 
 export default {
   components: {
@@ -25,11 +26,16 @@ export default {
     if (this.$jwt.getToken()) {
       setAuth(this.$store);
     }
+
+    this.getIngredientsData();
   },
   computed: {
     isAnimated() {
       return this.$route.name !== "Login";
     },
+  },
+  methods: {
+    ...mapActions("builder", ["getIngredientsData"]),
   },
 };
 </script>

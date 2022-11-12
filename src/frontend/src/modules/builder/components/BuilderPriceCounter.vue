@@ -84,7 +84,7 @@ export default {
         this.changeMiscItemQuantity({ ...misc, quantity: 0 });
       });
 
-      this.$router.push("Cart");
+      this.$router.push({ name: "Cart" });
     },
   },
 };
