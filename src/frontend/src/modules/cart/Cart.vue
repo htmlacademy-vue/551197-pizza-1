@@ -78,9 +78,9 @@
         </div>
       </main>
 
-      <transition name="popup">
+      <Transition name="fade">
         <CartModal @close="closeModal" v-if="isModal" />
-      </transition>
+      </Transition>
 
       <section class="footer">
         <div class="footer__more">
@@ -110,6 +110,8 @@ import CartEmpty from "@/modules/cart/CartEmpty";
 import CartOrderForm from "@/modules/cart/CartOrderForm";
 import { validator } from "@/common/mixins";
 
+import Transition from "@/common/components/Transition";
+
 export default {
   name: "Cart",
   mixins: [validator],
@@ -118,6 +120,7 @@ export default {
     CartModal,
     CartEmpty,
     CartOrderForm,
+    Transition,
   },
 
   data() {
@@ -179,6 +182,10 @@ export default {
     },
     closeModal() {
       this.isModal = false;
+      setTimeout(
+        () => this.$router.push({ name: this.user ? "Orders" : "IndexHome" }),
+        1000
+      );
     },
 
     setAddress({ phone, address }) {
@@ -212,9 +219,8 @@ export default {
         };
       });
     },
-    async setPizzaToBuilder(pizza) {
+    setPizzaToBuilder(pizza) {
       this.editPizza(pizza);
-      await this.$router.push({ name: "IndexHome" });
     },
 
     async saveOrder() {
@@ -244,14 +250,3 @@ export default {
   },
 };
 </script>
-
-<style scoped lang="scss">
-.popup-enter-active,
-.popup-leave-active {
-  transition: opacity 1s;
-}
-.popup-enter,
-.popup-leave-to {
-  opacity: 0;
-}
-</style>

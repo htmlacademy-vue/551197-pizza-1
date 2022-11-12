@@ -22,13 +22,13 @@
       >
         <div class="pizza__wrapper">
           <div v-for="el in viewIngredients" :key="el.id">
-            <transition name="fade" appear>
+            <Transition name="fade" :appear="true">
               <div
                 v-if="el.count"
                 :class="['pizza__filling', `pizza__filling--${el.label}`]"
               />
-            </transition>
-            <transition name="fade">
+            </Transition>
+            <Transition name="fade">
               <div
                 v-if="el.count > 1"
                 :class="[
@@ -37,18 +37,18 @@
                   `pizza__filling--${el.label}`,
                 ]"
               />
-            </transition>
+            </Transition>
 
-            <transition name="fade">
+            <Transition name="fade">
               <div
-                v-if="el.count > 3"
+                v-if="el.count > 2"
                 :class="[
                   'pizza__filling',
                   `pizza__filling--third`,
                   `pizza__filling--${el.label}`,
                 ]"
               />
-            </transition>
+            </Transition>
           </div>
         </div>
       </div>
@@ -62,10 +62,13 @@ import BuilderPriceCounter from "./BuilderPriceCounter.vue";
 
 import { mapMutations, mapState } from "vuex";
 
+import Transition from "@/common/components/Transition";
+
 export default {
   name: "BuilderPizzaView",
   components: {
     BuilderPriceCounter,
+    Transition,
   },
 
   data() {
@@ -99,14 +102,3 @@ export default {
   },
 };
 </script>
-
-<style scoped lang="scss">
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 1s;
-}
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
-}
-</style>

@@ -1,13 +1,9 @@
 <template>
   <div class="app">
     <AppLayout>
-      <transition
-        name="slide"
-        :appear="isAnimated"
-        enter-active-class="animate__animated animate__slideInRight"
-      >
+      <Transition name="slide" :appear="isAnimated ? true : false">
         <router-view />
-      </transition>
+      </Transition>
     </AppLayout>
   </div>
 </template>
@@ -17,9 +13,12 @@ import AppLayout from "./layouts/AppLayout.vue";
 import { setAuth } from "./common/helpers";
 import { mapActions } from "vuex";
 
+import Transition from "@/common/components/Transition";
+
 export default {
   components: {
     AppLayout,
+    Transition,
   },
 
   created() {
