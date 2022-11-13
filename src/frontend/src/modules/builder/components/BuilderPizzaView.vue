@@ -21,30 +21,35 @@
         :class="`pizza--foundation--${currentDough.label}-${currentSauce.label}`"
       >
         <div class="pizza__wrapper">
-          <template v-for="el in viewIngredients">
-            <div
-              :key="el.id"
-              :class="['pizza__filling', `pizza__filling--${el.label}`]"
-            />
-            <div
-              v-if="el.count > 1"
-              :key="el.id"
-              :class="[
-                'pizza__filling',
-                `pizza__filling--second`,
-                `pizza__filling--${el.label}`,
-              ]"
-            />
-            <div
-              v-if="el.count > 2"
-              :key="el.id"
-              :class="[
-                'pizza__filling',
-                `pizza__filling--third`,
-                `pizza__filling--${el.label}`,
-              ]"
-            />
-          </template>
+          <div v-for="el in viewIngredients" :key="el.id">
+            <Transition name="fade" :appear="true">
+              <div
+                v-if="el.count"
+                :class="['pizza__filling', `pizza__filling--${el.label}`]"
+              />
+            </Transition>
+            <Transition name="fade">
+              <div
+                v-if="el.count > 1"
+                :class="[
+                  'pizza__filling',
+                  `pizza__filling--second`,
+                  `pizza__filling--${el.label}`,
+                ]"
+              />
+            </Transition>
+
+            <Transition name="fade">
+              <div
+                v-if="el.count > 2"
+                :class="[
+                  'pizza__filling',
+                  `pizza__filling--third`,
+                  `pizza__filling--${el.label}`,
+                ]"
+              />
+            </Transition>
+          </div>
         </div>
       </div>
     </div>
@@ -57,10 +62,13 @@ import BuilderPriceCounter from "./BuilderPriceCounter.vue";
 
 import { mapMutations, mapState } from "vuex";
 
+import Transition from "@/common/components/Transition";
+
 export default {
   name: "BuilderPizzaView",
   components: {
     BuilderPriceCounter,
+    Transition,
   },
 
   data() {
@@ -94,5 +102,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped></style>

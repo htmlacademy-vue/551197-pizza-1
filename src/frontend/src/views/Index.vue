@@ -34,14 +34,12 @@ export default {
   },
 
   created() {
-    this.getIngredientsData();
     this.getDoughData();
     this.getSaucesData();
     this.getMiscData();
   },
 
   methods: {
-    ...mapActions("builder", ["getIngredientsData"]),
     ...mapActions("builder", ["getDoughData"]),
     ...mapActions("builder", ["getSaucesData"]),
     ...mapActions("cart", ["getMiscData"]),
