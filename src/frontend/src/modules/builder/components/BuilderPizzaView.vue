@@ -22,7 +22,7 @@
       >
         <div class="pizza__wrapper">
           <div v-for="el in viewIngredients" :key="el.id">
-            <Transition name="fade" :appear="true">
+            <Transition name="fade">
               <div
                 v-if="el.count"
                 :class="['pizza__filling', `pizza__filling--${el.label}`]"

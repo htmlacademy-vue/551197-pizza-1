@@ -1,7 +1,7 @@
 <template>
   <div class="app">
     <AppLayout>
-      <Transition name="slide" :appear="isAnimated ? true : false">
+      <Transition name="slide" :appear="isAnimated">
         <router-view />
       </Transition>
     </AppLayout>
