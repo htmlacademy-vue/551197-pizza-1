@@ -47,8 +47,6 @@ export default {
           return "dough__input--light";
         case "Толстое":
           return "dough__input--large";
-        default:
-          alert("error get dough");
       }
     },
     changeDough(dough) {

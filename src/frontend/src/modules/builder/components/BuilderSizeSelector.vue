@@ -1,3 +1,4 @@
+6
 <template>
   <div class="content__diameter">
     <div class="sheet">
@@ -49,8 +50,6 @@ export default {
           return "diameter__input--normal";
         case 3:
           return "diameter__input--big";
-        default:
-          alert("error get size");
       }
     },
   },
