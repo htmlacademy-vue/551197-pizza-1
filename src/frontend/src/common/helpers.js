@@ -4,7 +4,6 @@ import {
   CrudApiService,
   ReadOnlyApiService,
   BuilderApiService,
-  // BaseApiService,
 } from "@/services/api.service";
 
 export const createResources = (notifier) => {

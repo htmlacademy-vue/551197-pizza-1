@@ -11,6 +11,7 @@
       />
     </label>
     <div
+      data-test="pizza-wrapper"
       @drop="onDrop"
       @dragover.prevent
       @dragenter.prevent

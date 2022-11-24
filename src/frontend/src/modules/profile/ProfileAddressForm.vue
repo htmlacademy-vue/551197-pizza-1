@@ -68,9 +68,9 @@
           </label>
         </div>
       </div>
-
       <div class="address-form__buttons">
         <button
+          data-test="delete-button"
           v-if="isAddressEdited"
           type="submit"
           class="button button--transparent"
@@ -149,7 +149,6 @@ export default {
       } else {
         this.addAddress(address);
       }
-
       $event.target.submit();
     },
   },
