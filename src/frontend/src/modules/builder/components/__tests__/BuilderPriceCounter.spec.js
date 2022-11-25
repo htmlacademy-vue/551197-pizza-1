@@ -114,7 +114,6 @@ describe("BuilderPriceCounter", () => {
     await addToCartBtn.trigger("click");
 
     expect(actions.cart.setPizzaSettingsForCart).toHaveBeenCalled();
-
     expect(actions.cart.changeMiscItemQuantity).toHaveBeenCalled();
   });
 });

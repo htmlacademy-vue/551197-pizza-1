@@ -32,10 +32,10 @@
           class="layout__address"
         >
           <ProfileAddressForm
-            data-test="address-form"
             v-if="address.id === editableAddressId"
             :address="address"
             :user="user"
+            data-test="address-form"
           />
 
           <div v-else class="sheet address-form" data-test="address-card">
@@ -70,9 +70,9 @@
         <div class="layout__button">
           <button
             data-test="add-address-button"
-            @click="openNewAddressForm"
             type="button"
             class="button button--border"
+            @click="openNewAddressForm"
           >
             Добавить новый адрес
           </button>

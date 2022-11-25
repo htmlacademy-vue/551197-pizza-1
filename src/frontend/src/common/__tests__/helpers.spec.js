@@ -23,18 +23,22 @@ describe("test helpers", () => {
     const normalize = normalizeAdditionalItems(testItem);
     expect(normalize).toEqual({ ...testItem, count: 0 });
   });
+
   it("test normalizeItems", () => {
     const normalize = normalizeItems(testItem);
     expect(normalize).toEqual({ ...testItem, label: "" });
   });
+
   it("test normalizeIngredientsItems", () => {
     const normalize = normalizeIngredientsItems(testItem);
     expect(normalize).toEqual({ ...testItem, count: 0, label: "test" });
   });
+
   it("test getItemById", () => {
     const item = getItemById(testList, 1);
     expect(item).toEqual({ id: 1 });
   });
+  
   it("test isEmpty", () => {
     const empty = isEmpty({});
     expect(empty).toBeTruthy();

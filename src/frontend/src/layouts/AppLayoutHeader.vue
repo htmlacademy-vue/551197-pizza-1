@@ -13,9 +13,9 @@
       </div>
 
       <div class="header__cart">
-        <router-link data-test="cart-link" to="/cart"
-          >{{ getTotalPrice }} ₽</router-link
-        >
+        <router-link data-test="cart-link" to="/cart">
+          {{ getTotalPrice }} ₽
+        </router-link>
       </div>
       <div class="header__user" style="display: flex">
         <router-link v-if="user" data-test="profile-link" to="/profile">
@@ -33,21 +33,21 @@
         </router-link>
 
         <a
-          data-test="logout-link"
           v-if="user"
           key="logout-link"
           href="#"
           class="header__logout"
+          data-test="logout-link"
           @click="$logout"
         >
           <span>Выйти</span>
         </a>
 
         <router-link
-          data-test="login-link"
           v-else
           to="/login"
           class="header__login"
+          data-test="login-link"
         >
           <span>Войти</span></router-link
         >

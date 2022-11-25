@@ -43,7 +43,6 @@ describe("Index", () => {
     const spyOnAction = jest.spyOn(wrapper.vm, "dropIngredients");
     wrapper.vm.dropIngredients(testLabel);
     expect(spyOnAction).toHaveBeenCalledWith(testLabel);
-
     expect(
       store.state.builder.ingredientsItems.find(
         (item) => item.label === testLabel

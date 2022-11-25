@@ -28,14 +28,14 @@ describe("AppInput", () => {
 
   it("emits input event when typing", async () => {
     createComponent({ propsData });
-    let input = wrapper.find("input");
+    const input = wrapper.find("input");
     await input.trigger("input");
     expect(wrapper.emitted().input).toBeTruthy();
   });
 
   it("emits the current input value when typing", async () => {
     createComponent({ propsData });
-    let input = wrapper.find("input");
+    const input = wrapper.find("input");
     input.element.value = "test";
     await input.trigger("input");
     expect(wrapper.emitted().input[0][0]).toEqual("test");
@@ -43,7 +43,7 @@ describe("AppInput", () => {
 
   it("emits change event with the current input value", async () => {
     createComponent({ propsData });
-    let input = wrapper.find("input");
+    const input = wrapper.find("input");
     input.element.value = "test";
     await input.trigger("change");
     expect(wrapper.emitted().change[0][0]).toEqual("test");
@@ -51,25 +51,25 @@ describe("AppInput", () => {
 
   it("input name is prop name", () => {
     createComponent({ propsData });
-    let input = wrapper.find("input");
+    const input = wrapper.find("input");
     expect(input.attributes("name")).toBe(propsData.name);
   });
 
   it("input type is prop type", () => {
     createComponent({ propsData });
-    let input = wrapper.find("input");
+    const input = wrapper.find("input");
     expect(input.attributes("type")).toBe(propsData.type);
   });
 
   it("input placeholder is prop placeholder", () => {
     createComponent({ propsData });
-    let input = wrapper.find("input");
+    const input = wrapper.find("input");
     expect(input.attributes("placeholder")).toBe(propsData.placeholder);
   });
 
   it("has error class if error text has been passed in prop", () => {
     createComponent({ propsData });
-    let input = wrapper.find("input");
+    const input = wrapper.find("input");
     expect(input.attributes("class")).toContain("text-field__input--error");
   });
 
@@ -86,14 +86,14 @@ describe("AppInput", () => {
 
   it("isn't disabled if prop disabled is false", () => {
     createComponent({ propsData });
-    let input = wrapper.find("input");
+    const input = wrapper.find("input");
     expect(input.attributes("disabled")).toBeUndefined();
   });
 
   it("is disabled if prop disabled is true", () => {
     propsData.disabled = true;
     createComponent({ propsData });
-    let input = wrapper.find("input");
+    const input = wrapper.find("input");
     expect(input.attributes("disabled")).toBe("disabled");
   });
 });

@@ -97,7 +97,6 @@ describe("ProfileAddressForm", () => {
       store,
       propsData: { address: existedAddress, user: user },
     });
-
     await wrapper.vm.$nextTick();
 
     expect(wrapper.find('input[name="addr-name"]').element.value).toBe(
@@ -140,9 +139,7 @@ describe("ProfileAddressForm", () => {
       store,
       propsData: { address: existedAddress, user: user },
     });
-
     await wrapper.vm.$nextTick();
-
     const deleteBtn = wrapper.find('[data-test="delete-button"]');
     await deleteBtn.trigger("click");
     expect(actions.addresses.deleteAddress).toHaveBeenCalledWith(

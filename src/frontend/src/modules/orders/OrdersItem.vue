@@ -15,7 +15,7 @@
       </form>
 
       <div class="order__button">
-        <button data-test="repeat-btn" @click="repeatOrder()" class="button">
+        <button data-test="repeat-btn" class="button" @click="repeatOrder()">
           Повторить
         </button>
       </div>

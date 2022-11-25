@@ -11,12 +11,12 @@
             <h1 class="title title--big">Корзина</h1>
           </div>
 
-          <CartEmpty data-test="cart-empty" v-if="getPizza.length == 0" />
+          <CartEmpty v-if="getPizza.length == 0" data-test="cart-empty" />
 
           <ul
-            data-test="cart-items"
             v-if="getPizza.length > 0"
             class="cart-list sheet"
+            data-test="cart-items"
           >
             <li class="cart-list__item" v-for="item in getPizza" :key="item.id">
               <div class="product cart-list__product">
@@ -49,9 +49,9 @@
               <div class="cart-list__button">
                 <button
                   data-test="cart-edit-button"
-                  @click="setPizzaToBuilder(item)"
                   type="button"
                   class="cart-list__edit"
+                  @click="setPizzaToBuilder(item)"
                 >
                   Изменить
                 </button>
@@ -90,9 +90,9 @@
 
       <Transition name="fade">
         <CartModal
+          v-if="isModal"
           data-test="success-popup"
           @close="closeModal"
-          v-if="isModal"
         />
       </Transition>
 

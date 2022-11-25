@@ -33,7 +33,6 @@ describe("Profile", () => {
   it("calls vuex action to get addresses when mounted", async () => {
     createComponent({ localVue, store });
     await wrapper.vm.$nextTick();
-
     expect(actions.addresses.getAddresses).toHaveBeenCalled();
   });
 
@@ -56,7 +55,6 @@ describe("Profile", () => {
     const addBtn = wrapper.find('[data-test="add-address-button"]');
     await addBtn.trigger("click");
     const newAddressForm = wrapper.find('[data-test="new-address-form"]');
-
     expect(newAddressForm.exists()).toBeTruthy();
   });
 });

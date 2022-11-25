@@ -79,7 +79,6 @@ describe("Cart", () => {
     const addressForm = wrapper.find('[data-test="address-form"]');
     addressForm.vm.$emit("setAddress", { phone: "", address: testAddress });
     await wrapper.vm.$nextTick();
-
     await wrapper.find('[data-test="order-form"]').trigger("submit");
     expect(actions.orders.createOrder).toHaveBeenCalled();
     await wrapper.vm.$nextTick();
@@ -93,13 +92,11 @@ describe("Cart", () => {
     const addressForm = wrapper.find('[data-test="address-form"]');
     addressForm.vm.$emit("setAddress", { phone: "", address: testAddress });
     await wrapper.vm.$nextTick();
-
     await wrapper.find('[data-test="order-form"]').trigger("submit");
     await wrapper.vm.$nextTick();
     const successPopup = wrapper.find('[data-test="success-popup"]');
     successPopup.vm.$emit("close");
     await wrapper.vm.$nextTick();
-
     expect(successPopup.exists()).toBeFalsy();
   });
 
