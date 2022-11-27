@@ -6,14 +6,6 @@ import Cart from "@/modules/cart/Cart";
 const localVue = createLocalVue();
 localVue.use(Vuex);
 
-const emptyAddress = {
-  id: null,
-  street: "",
-  building: "",
-  flat: "",
-  comment: "",
-};
-
 const testAddress = {
   id: null,
   street: "Школьная",

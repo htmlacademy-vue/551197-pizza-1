@@ -13,10 +13,10 @@
           <option value="pickup">Заберу сам</option>
           <option value="newAddress">Новый адрес</option>
           <option
-            data-test="user-address"
             v-for="address in addresses"
             :key="address.id"
             :value="address.id"
+            data-test="user-address"
           >
             {{ address.name }}
           </option>
@@ -34,7 +34,11 @@
         />
       </label>
 
-      <div v-if="isAddressFormDisplayed" class="cart-form__address">
+      <div
+        v-if="isAddressFormDisplayed"
+        key="cart-form-address"
+        class="cart-form__address"
+      >
         <span class="cart-form__label">{{ addressFormName }}:</span>
 
         <div class="cart-form__input">
@@ -181,7 +185,7 @@ export default {
         flat: this.flat,
         comment: this.comment,
       };
-      this.$emit("setAddress", {
+      this.$emit("set-address", {
         phone: this.phone,
         address: this.deliveryOption === "pickup" ? null : formAddress,
       });
@@ -189,5 +193,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped></style>

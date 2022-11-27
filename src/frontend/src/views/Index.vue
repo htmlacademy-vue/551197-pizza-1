@@ -11,7 +11,7 @@
 
           <BuilderIngredientsSelector />
 
-          <BuilderPizzaView @dropIngredients="dropIngredients" />
+          <BuilderPizzaView @drop-ingredients="dropIngredients" />
         </div>
       </form>
     </main>
@@ -55,7 +55,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import "@/assets/scss/app";
 @import "@/assets/scss/fonts";
 @import "@/assets/scss/scaffolding";

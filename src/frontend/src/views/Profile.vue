@@ -33,12 +33,18 @@
         >
           <ProfileAddressForm
             v-if="address.id === editableAddressId"
+            key="edit-adrress-form"
             :address="address"
             :user="user"
             data-test="address-form"
           />
 
-          <div v-else class="sheet address-form" data-test="address-card">
+          <div
+            v-else
+            key="edit-address-card"
+            class="sheet address-form"
+            data-test="address-card"
+          >
             <div class="address-form__header">
               <b>Адрес №{{ address.id }}. {{ address.name }}</b>
               <div class="address-form__edit">
@@ -60,7 +66,7 @@
           </div>
         </div>
 
-        <div v-if="newAddressForm">
+        <div v-if="newAddressForm" key="new-address-form">
           <ProfileAddressForm
             data-test="new-address-form"
             :address="newAddressData"
@@ -141,5 +147,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss"></style>

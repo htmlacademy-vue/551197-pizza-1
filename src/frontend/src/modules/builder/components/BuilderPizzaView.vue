@@ -26,12 +26,14 @@
             <Transition name="fade">
               <div
                 v-if="el.count"
+                key="item-count"
                 :class="['pizza__filling', `pizza__filling--${el.label}`]"
               />
             </Transition>
             <Transition name="fade">
               <div
                 v-if="el.count > 1"
+                key="item-count"
                 :class="[
                   'pizza__filling',
                   `pizza__filling--second`,
@@ -43,6 +45,7 @@
             <Transition name="fade">
               <div
                 v-if="el.count > 2"
+                key="item-count"
                 :class="[
                   'pizza__filling',
                   `pizza__filling--third`,
@@ -95,7 +98,7 @@ export default {
     ...mapMutations("builder", ["setCurrentPizzaName"]),
 
     onDrop(evt) {
-      this.$emit("dropIngredients", evt.dataTransfer.getData("item"));
+      this.$emit("drop-ingredients", evt.dataTransfer.getData("item"));
     },
     setName(val) {
       this.setCurrentPizzaName(val);

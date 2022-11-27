@@ -13,15 +13,6 @@ describe("BuilderIngredientsSelector", () => {
     wrapper = mount(BuilderIngredientsSelector, options);
   };
 
-  const testItem = {
-    count: 1,
-    id: 1,
-    image: "/public/img/filling/mushrooms.svg",
-    label: "mushrooms",
-    name: "Грибы",
-    price: 33,
-  };
-
   beforeEach(() => {
     store = generateMockStore();
     setSauces(store);

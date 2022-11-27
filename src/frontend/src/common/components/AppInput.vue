@@ -13,7 +13,7 @@
       @input="$emit('input', $event.target.value)"
       @change="$emit('change', $event.target.value)"
     />
-    <span v-if="showError" class="text-field__text">
+    <span v-if="showError" key="error-text" class="text-field__text">
       {{ errorText }}
     </span>
   </div>

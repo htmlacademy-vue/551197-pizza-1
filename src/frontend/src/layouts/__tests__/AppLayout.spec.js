@@ -1,7 +1,6 @@
 import { shallowMount } from "@vue/test-utils";
 import AppLayout from "@/layouts/AppLayout";
 
-
 describe("AppLayout", () => {
   const mocks = {
     $route: {
