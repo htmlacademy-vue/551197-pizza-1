@@ -17,7 +17,7 @@
               :checked="currentSauce.id === sauce.id"
               @change="changeSauce(sauce)"
             />
-            <span>{{ sauce.name }}</span>
+            <span data-test="sauce">{{ sauce.name }}</span>
           </label>
         </div>
 
@@ -26,6 +26,7 @@
 
           <ul class="ingredients__list">
             <li
+              data-test="ingredients-item"
               class="ingredients__item"
               v-for="item in ingredientsItems"
               :key="item.id"
@@ -38,6 +39,7 @@
               />
 
               <ItemCounter
+                data-test="ingredients-counter"
                 @itemCount="itemCount"
                 :item="item"
                 :isOrange="false"

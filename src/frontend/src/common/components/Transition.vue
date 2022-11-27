@@ -1,6 +1,5 @@
 <template>
-  <transition v-if="appear" :name="name" appear><slot /> </transition>
-  <transition v-else :name="name"><slot /> </transition>
+  <transition :name="name" :appear="appear"><slot /> </transition>
 </template>
 
 <script>

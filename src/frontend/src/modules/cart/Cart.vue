@@ -1,15 +1,23 @@
 <template>
   <div>
-    <form class="layout-form" @submit.prevent="saveOrder">
+    <form
+      class="layout-form"
+      @submit.prevent="saveOrder"
+      data-test="order-form"
+    >
       <main class="content cart">
         <div class="container">
           <div class="cart__title">
             <h1 class="title title--big">Корзина</h1>
           </div>
 
-          <CartEmpty v-if="getPizza.length == 0" />
+          <CartEmpty v-if="getPizza.length == 0" data-test="cart-empty" />
 
-          <ul v-if="getPizza.length > 0" class="cart-list sheet">
+          <ul
+            v-if="getPizza.length > 0"
+            class="cart-list sheet"
+            data-test="cart-items"
+          >
             <li class="cart-list__item" v-for="item in getPizza" :key="item.id">
               <div class="product cart-list__product">
                 <img
@@ -40,9 +48,10 @@
 
               <div class="cart-list__button">
                 <button
-                  @click="setPizzaToBuilder(item)"
+                  data-test="cart-edit-button"
                   type="button"
                   class="cart-list__edit"
+                  @click="setPizzaToBuilder(item)"
                 >
                   Изменить
                 </button>
@@ -72,6 +81,7 @@
           </div>
 
           <CartOrderForm
+            data-test="address-form"
             @setAddress="setAddress"
             :reorderAddressId="addressId"
           ></CartOrderForm>
@@ -79,10 +89,14 @@
       </main>
 
       <Transition name="fade">
-        <CartModal @close="closeModal" v-if="isModal" />
+        <CartModal
+          v-if="isModal"
+          data-test="success-popup"
+          @close="closeModal"
+        />
       </Transition>
 
-      <section class="footer">
+      <section class="footer" data-test="cart-footer">
         <div class="footer__more">
           <router-link to="/" class="button button--border button--arrow">
             Хочу еще одну

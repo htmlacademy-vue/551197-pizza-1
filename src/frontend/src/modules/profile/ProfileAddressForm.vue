@@ -68,12 +68,12 @@
           </label>
         </div>
       </div>
-
       <div class="address-form__buttons">
         <button
           v-if="isAddressEdited"
           type="submit"
           class="button button--transparent"
+          data-test="delete-button"
           @click="deleteAddress(address.id)"
         >
           Удалить
@@ -149,7 +149,6 @@ export default {
       } else {
         this.addAddress(address);
       }
-
       $event.target.submit();
     },
   },

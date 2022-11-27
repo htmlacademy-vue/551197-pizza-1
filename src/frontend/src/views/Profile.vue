@@ -35,13 +35,15 @@
             v-if="address.id === editableAddressId"
             :address="address"
             :user="user"
+            data-test="address-form"
           />
 
-          <div v-else class="sheet address-form">
+          <div v-else class="sheet address-form" data-test="address-card">
             <div class="address-form__header">
               <b>Адрес №{{ address.id }}. {{ address.name }}</b>
               <div class="address-form__edit">
                 <button
+                  data-test="edit-address-button"
                   type="button"
                   class="icon"
                   @click="openFormToEdit(address.id)"
@@ -59,13 +61,18 @@
         </div>
 
         <div v-if="newAddressForm">
-          <ProfileAddressForm :address="newAddressData" :user="user" />
+          <ProfileAddressForm
+            data-test="new-address-form"
+            :address="newAddressData"
+            :user="user"
+          />
         </div>
         <div class="layout__button">
           <button
-            @click="openNewAddressForm"
+            data-test="add-address-button"
             type="button"
             class="button button--border"
+            @click="openNewAddressForm"
           >
             Добавить новый адрес
           </button>

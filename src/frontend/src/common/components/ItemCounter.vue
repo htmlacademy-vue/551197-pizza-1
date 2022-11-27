@@ -3,8 +3,8 @@
     <button
       type="button"
       class="counter__button counter__button--minus"
-      @click="reduce"
       :disabled="disabledReduce"
+      @click="reduce"
     >
       <span class="visually-hidden">Меньше</span>
     </button>
@@ -22,8 +22,8 @@
         'counter__button counter__button--plus',
         isOrange ? 'counter__button--orange' : '',
       ]"
-      @click="add"
       :disabled="disabledAdd"
+      @click="add"
     >
       <span class="visually-hidden">Больше</span>
     </button>

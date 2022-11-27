@@ -8,15 +8,16 @@
       <div class="order__sum">
         <span>Сумма заказа: {{ orderPrice }} ₽</span>
       </div>
-
-      <form @submit="deleteOrder(order.id)">
+      <form data-test="delete-btn" @submit="deleteOrder(order.id)">
         <div class="order__button">
           <button type="submit" class="button button--border">Удалить</button>
         </div>
       </form>
 
       <div class="order__button">
-        <button @click="repeatOrder()" class="button">Повторить</button>
+        <button data-test="repeat-btn" class="button" @click="repeatOrder()">
+          Повторить
+        </button>
       </div>
     </div>
 
@@ -60,10 +61,6 @@ export default {
     },
   },
 
-  // created() {
-  // this.getIngredientsData();
-  // },
-
   computed: {
     ...mapState("cart", ["misc"]),
     ...mapState("builder", ["dough", "sauces", "sizes", "ingredientsItems"]),
@@ -95,19 +92,9 @@ export default {
   methods: {
     ...mapActions("orders", ["deleteOrder"]),
     ...mapActions("orders", ["createOrder"]),
-    // ...mapActions("builder", ["getIngredientsData"]),
 
     ...mapActions("cart", ["setPizzaSettingsForCart"]),
     ...mapActions("cart", ["changeMiscItemQuantity"]),
-
-    // normalizeMisc() {
-    //   return this.misc.map((item) => {
-    //     return {
-    //       miscId: item.id,
-    //       quantity: item.count,
-    //     };
-    //   });
-    // },
 
     getOrderPrice(pizzas, misc) {
       const pizzaPrices = pizzas.map((pizza) => pizza.price * pizza.quantity);

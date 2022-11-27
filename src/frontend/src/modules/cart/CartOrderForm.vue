@@ -13,6 +13,7 @@
           <option value="pickup">Заберу сам</option>
           <option value="newAddress">Новый адрес</option>
           <option
+            data-test="user-address"
             v-for="address in addresses"
             :key="address.id"
             :value="address.id"
@@ -27,7 +28,7 @@
         <AppInput
           v-model="phone"
           type="text"
-          name="tel"
+          name="phone"
           placeholder="+7 999-999-99-99"
           @change="setOrderAddress"
         />

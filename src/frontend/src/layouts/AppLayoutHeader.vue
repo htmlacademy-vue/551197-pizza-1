@@ -13,10 +13,12 @@
       </div>
 
       <div class="header__cart">
-        <router-link to="/cart">{{ getTotalPrice }} ₽</router-link>
+        <router-link data-test="cart-link" to="/cart">
+          {{ getTotalPrice }} ₽
+        </router-link>
       </div>
       <div class="header__user" style="display: flex">
-        <router-link v-if="user" to="/profile">
+        <router-link v-if="user" data-test="profile-link" to="/profile">
           <picture>
             <source type="image/webp" :srcset="getWebPSrc" />
             <img
@@ -35,12 +37,18 @@
           key="logout-link"
           href="#"
           class="header__logout"
+          data-test="logout-link"
           @click="$logout"
         >
           <span>Выйти</span>
         </a>
 
-        <router-link v-else to="/login" class="header__login">
+        <router-link
+          v-else
+          to="/login"
+          class="header__login"
+          data-test="login-link"
+        >
           <span>Войти</span></router-link
         >
       </div>

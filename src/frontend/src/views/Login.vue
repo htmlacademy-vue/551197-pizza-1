@@ -1,8 +1,8 @@
 <template>
   <div class="sign-form">
-    <router-link to="/" class="close close--white">
+    <a data-test="close" class="close close--white" @click="closeDialog">
       <span class="visually-hidden">Закрыть форму авторизации</span>
-    </router-link>
+    </a>
     <div class="sign-form__title">
       <h1 class="title title--small">Авторизуйтесь на сайте</h1>
     </div>
@@ -91,6 +91,9 @@ export default {
         password: this.password,
       });
       await this.$router.push("/");
+    },
+    closeDialog() {
+      this.$router.push("/");
     },
   },
 };
