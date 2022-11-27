@@ -1,5 +1,5 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils";
-import { generateMockStore, setOrders } from "@/store/mock";
+import { generateMockStore } from "@/store/mock";
 import Vuex from "vuex";
 import Orders from "@/views/Orders";
 
@@ -7,12 +7,6 @@ const localVue = createLocalVue();
 localVue.use(Vuex);
 
 describe("Orders", () => {
-  const mocks = {
-    $router: {
-      push: jest.fn(),
-    },
-  };
-
   let actions;
   let store;
   let wrapper;

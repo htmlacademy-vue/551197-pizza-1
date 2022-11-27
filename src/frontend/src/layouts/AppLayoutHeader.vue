@@ -18,7 +18,12 @@
         </router-link>
       </div>
       <div class="header__user" style="display: flex">
-        <router-link v-if="user" data-test="profile-link" to="/profile">
+        <router-link
+          v-if="user"
+          key="profile-link"
+          data-test="profile-link"
+          to="/profile"
+        >
           <picture>
             <source type="image/webp" :srcset="getWebPSrc" />
             <img
@@ -45,6 +50,7 @@
 
         <router-link
           v-else
+          key="login-link"
           to="/login"
           class="header__login"
           data-test="login-link"

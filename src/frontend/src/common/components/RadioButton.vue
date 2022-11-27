@@ -9,9 +9,13 @@
       @click="radio(item)"
     />
 
-    <b v-if="itemName && itemDescription">{{ itemName }}</b>
-    <span v-if="itemName && itemDescription">{{ itemDescription }}</span>
-    <span v-if="itemName && !itemDescription">{{ itemName }}</span>
+    <b v-if="itemName && itemDescription" key="item-name">{{ itemName }}</b>
+    <span v-if="itemName && itemDescription" key="item-description">{{
+      itemDescription
+    }}</span>
+    <span v-if="itemName && !itemDescription" key="item-name">{{
+      itemName
+    }}</span>
   </label>
 </template>
 
@@ -49,7 +53,7 @@ export default {
   },
   methods: {
     radio(item) {
-      this.$emit("changeItem", item);
+      this.$emit("change-item", item);
     },
   },
 };

@@ -71,6 +71,7 @@
       <div class="address-form__buttons">
         <button
           v-if="isAddressEdited"
+          key="delete-button"
           type="submit"
           class="button button--transparent"
           data-test="delete-button"

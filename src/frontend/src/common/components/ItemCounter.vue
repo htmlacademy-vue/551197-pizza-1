@@ -55,13 +55,11 @@ export default {
 
   methods: {
     add() {
-      this.$emit("itemCount", this.item.label, this.item.count + 1);
+      this.$emit("item-count", this.item.label, this.item.count + 1);
     },
     reduce() {
-      this.$emit("itemCount", this.item.label, this.item.count - 1);
+      this.$emit("item-count", this.item.label, this.item.count - 1);
     },
   },
 };
 </script>
-
-<style lang="scss" scoped></style>

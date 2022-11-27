@@ -38,7 +38,7 @@ describe("test helpers", () => {
     const item = getItemById(testList, 1);
     expect(item).toEqual({ id: 1 });
   });
-  
+
   it("test isEmpty", () => {
     const empty = isEmpty({});
     expect(empty).toBeTruthy();

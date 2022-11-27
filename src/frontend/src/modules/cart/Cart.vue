@@ -2,8 +2,8 @@
   <div>
     <form
       class="layout-form"
-      @submit.prevent="saveOrder"
       data-test="order-form"
+      @submit.prevent="saveOrder"
     >
       <main class="content cart">
         <div class="container">
@@ -11,10 +11,15 @@
             <h1 class="title title--big">Корзина</h1>
           </div>
 
-          <CartEmpty v-if="getPizza.length == 0" data-test="cart-empty" />
+          <CartEmpty
+            v-if="getPizza.length == 0"
+            key="cart-empty"
+            data-test="cart-empty"
+          />
 
           <ul
             v-if="getPizza.length > 0"
+            key="cart-items"
             class="cart-list sheet"
             data-test="cart-items"
           >
@@ -36,9 +41,9 @@
               </div>
               <div class="counter cart-list__counter">
                 <ItemCounter
-                  @itemCount="itemCountPizza"
                   :item="item"
-                  :isOrange="true"
+                  :is-orange="true"
+                  @item-count="itemCountPizza"
                 />
               </div>
 
@@ -48,9 +53,9 @@
 
               <div class="cart-list__button">
                 <button
-                  data-test="cart-edit-button"
                   type="button"
                   class="cart-list__edit"
+                  data-test="cart-edit-button"
                   @click="setPizzaToBuilder(item)"
                 >
                   Изменить
@@ -72,25 +77,26 @@
                 </p>
 
                 <ItemCounter
-                  @itemCount="itemCountMisc"
                   :item="item"
-                  :isOrange="true"
+                  :is-orange="true"
+                  @item-count="itemCountMisc"
                 />
               </li>
             </ul>
           </div>
 
           <CartOrderForm
+            :reorder-address-id="addressId"
             data-test="address-form"
-            @setAddress="setAddress"
-            :reorderAddressId="addressId"
-          ></CartOrderForm>
+            @set-address="setAddress"
+          />
         </div>
       </main>
 
       <Transition name="fade">
         <CartModal
           v-if="isModal"
+          key="modal"
           data-test="success-popup"
           @close="closeModal"
         />

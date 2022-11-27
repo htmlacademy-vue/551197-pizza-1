@@ -26,23 +26,23 @@
 
           <ul class="ingredients__list">
             <li
-              data-test="ingredients-item"
               class="ingredients__item"
               v-for="item in ingredientsItems"
               :key="item.id"
+              data-test="ingredients-item"
             >
               <SelectorItem
-                :classItem="item.label"
+                :class-item="item.label"
                 :name="item.name"
                 :draggable="draggable(item)"
                 @dragstart.native="startDrag($event, item.label)"
               />
 
               <ItemCounter
-                data-test="ingredients-counter"
-                @itemCount="itemCount"
                 :item="item"
-                :isOrange="false"
+                :is-orange="false"
+                data-test="ingredients-counter"
+                @item-count="itemCount"
               />
             </li>
           </ul>

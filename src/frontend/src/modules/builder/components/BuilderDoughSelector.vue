@@ -5,18 +5,17 @@
 
       <div class="sheet__content dough">
         <RadioButton
-          v-for="item in labeledDough"
-          :item="item"
-          :key="item.id"
-          :itemName="item.name"
-          :checked="currentDough.id === item.id"
-          :itemDescription="item.description"
           name="dough"
           class="dough__input"
-          :classInput="getDoughPizza(item.name)"
-          @changeItem="changeDough"
-        >
-        </RadioButton>
+          v-for="item in labeledDough"
+          :key="item.id"
+          :item="item"
+          :item-name="item.name"
+          :checked="currentDough.id === item.id"
+          :item-description="item.description"
+          :class-input="getDoughPizza(item.name)"
+          @change-item="changeDough"
+        />
       </div>
     </div>
   </div>

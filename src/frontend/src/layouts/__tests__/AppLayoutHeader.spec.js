@@ -1,11 +1,6 @@
 import { createLocalVue, mount } from "@vue/test-utils";
 import Vuex from "vuex";
-import {
-  generateMockStore,
-  setUser,
-  setPizzaItems,
-  setAdditionalItems,
-} from "@/store/mock";
+import { generateMockStore, setUser } from "@/store/mock";
 import AppLayoutHeader from "@/layouts/AppLayoutHeader";
 
 const localVue = createLocalVue();

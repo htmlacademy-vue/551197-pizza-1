@@ -12,13 +12,13 @@
               height="40"
             />
           </router-link>
-          <router-link data-test="orders-link" to="/orders" class="layout__link"
+          <router-link to="/orders" class="layout__link" data-test="orders-link"
             >История заказов</router-link
           >
           <router-link
-            data-test="profile-link"
             to="/profile"
             class="layout__link"
+            data-test="profile-link"
             >Мои данные</router-link
           >
         </div>

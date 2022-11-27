@@ -2,10 +2,10 @@
   <div class="content__result" data-test="price counter">
     <p>Итого: {{ getPrice }} ₽</p>
     <button
-      data-test="add-to-cart-btn"
-      :disabled="isDisabled"
       type="button"
       class="button"
+      :disabled="isDisabled"
+      data-test="add-to-cart-btn"
       @click="savePizzaSettings()"
     >
       Готовьте!

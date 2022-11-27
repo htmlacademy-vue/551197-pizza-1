@@ -1,4 +1,3 @@
-6
 <template>
   <div class="content__diameter">
     <div class="sheet">
@@ -6,17 +5,16 @@
 
       <div class="sheet__content diameter">
         <RadioButton
+          name="diameter"
+          class="diameter__input"
           v-for="size in sizes"
           :key="size.id"
           :item="size"
-          :itemName="size.name"
+          :item-name="size.name"
           :checked="currentSize.id === size.id"
-          name="diameter"
-          class="diameter__input"
-          :classInput="getSizePizza(size.multiplier)"
-          @changeItem="changeSize"
-        >
-        </RadioButton>
+          :class-input="getSizePizza(size.multiplier)"
+          @change-item="changeSize"
+        />
       </div>
     </div>
   </div>
